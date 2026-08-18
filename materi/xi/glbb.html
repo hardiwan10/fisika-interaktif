@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLBB — Gerak Lurus Berubah Beraturan | Fisika XI</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Gerak Lurus Berubah Beraturan</h1>
+    <p class="sub">GLBB · Kelas XI · Semester 1</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- KONSEP -->
+  <section class="card">
+    <h2>📚 Konsep Dasar</h2>
+    <p>GLBB adalah gerak lurus yang <strong>percepatannya konstan</strong> (tetap). Kecepatan bertambah atau berkurang secara teratur tiap detik.</p>
+    <div class="rumus">
+      v = v₀ + a·t<br>
+      s = v₀·t + ½·a·t²<br>
+      v² = v₀² + 2·a·s
+    </div>
+    <p class="note">a = percepatan (m/s²) · v₀ = kecepatan awal · v = kecepatan akhir · s = jarak · t = waktu</p>
+  </section>
+
+  <!-- SIMULASI -->
+  <section class="card">
+    <h2>🎮 Simulasi Interaktif</h2>
+    <p>Atur percepatan & kecepatan awal, lalu tekan <em>Mainkan</em> untuk melihat benda bergerak.</p>
+
+    <div class="controls">
+      <label>Kecepatan awal v₀ (m/s)
+        <input type="range" id="v0" min="0" max="10" value="2" step="0.5">
+        <span id="v0val" class="badge">2</span>
+      </label>
+      <label>Percepatan a (m/s²)
+        <input type="range" id="acc" min="-5" max="5" value="1" step="0.5">
+        <span id="accval" class="badge">1</span>
+      </label>
+      <button id="play" class="btn">▶ Mainkan</button>
+      <button id="reset" class="btn ghost">↺ Reset</button>
+    </div>
+
+    <canvas id="sim" width="320" height="160"></canvas>
+    <div class="readout">
+      <span>t = <b id="rt">0.0</b> s</span>
+      <span>v = <b id="rv">2.0</b> m/s</span>
+      <span>s = <b id="rs">0.0</b> m</span>
+    </div>
+  </section>
+
+  <!-- KUIS MINI -->
+  <section class="card">
+    <h2>✍️ Kuis Mini</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Dibuat untuk siswa MAN 1 Soppeng · Fisika Kelas XI</p>
+</footer>
+
+<script>
+// ===== SIMULASI =====
+const cv = document.getElementById('sim');
+const ctx = cv.getContext('2d');
+let timer = null, t = 0, x = 0, v = 0;
+
+function draw(ballX, v){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  // garis lintasan
+  ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(10,120); ctx.lineTo(310,120); ctx.stroke();
+  // bola
+  ctx.fillStyle = '#6366f1';
+  ctx.beginPath(); ctx.arc(ballX,110,12,0,Math.PI*2); ctx.fill();
+  // label kecepatan
+  ctx.fillStyle='#0f172a'; ctx.font='12px sans-serif';
+  ctx.fillText('v='+v.toFixed(1), ballX-12, 90);
+}
+
+function update(){
+  const a = parseFloat(document.getElementById('acc').value);
+  v = parseFloat(document.getElementById('v0').value) + a*t;
+  x = parseFloat(document.getElementById('v0').value)*t + 0.5*a*t*t;
+  // skala: 1 m = 12 px, mulai dari x=10
+  let bx = 10 + x*12;
+  if(bx > 300){ bx = 300; clearInterval(timer); }
+  if(bx < 10){ bx = 10; clearInterval(timer); }
+  document.getElementById('rt').textContent = t.toFixed(1);
+  document.getElementById('rv').textContent = v.toFixed(1);
+  document.getElementById('rs').textContent = x.toFixed(1);
+  draw(bx, v);
+  t += 0.2;
+}
+
+document.getElementById('v0').oninput = e => document.getElementById('v0val').textContent = e.target.value;
+document.getElementById('acc').oninput = e => document.getElementById('accval').textContent = e.target.value;
+
+document.getElementById('play').onclick = () => {
+  clearInterval(timer); t=0; x=0; v=0;
+  timer = setInterval(update, 100);
+};
+document.getElementById('reset').onclick = () => {
+  clearInterval(timer); t=0; x=0; v=0;
+  document.getElementById('rt').textContent='0.0';
+  document.getElementById('rv').textContent=document.getElementById('v0').value;
+  document.getElementById('rs').textContent='0.0';
+  draw(10, parseFloat(document.getElementById('v0').value));
+};
+draw(10, 2);
+
+// ===== KUIS =====
+const soal = [
+  {q:"Benda bergerak lurus dengan percepatan tetap 2 m/s². Setelah 3 detik dari kecepatan awal 0, kecepatannya adalah...", o:["3 m/s","6 m/s","2 m/s","9 m/s"], a:1},
+  {q:"Pernyataan yang benar tentang GLBB adalah...", o:["Percepatan nol","Kecepatan tetap","Percepatan konstan","Lintasan melengkung"], a:2},
+  {q:"Rumus jarak GLBB adalah...", o:["s = v·t","s = v₀t + ½at²","s = ½·v·t","s = a·t"], a:1}
+];
+const qz = document.getElementById('quiz');
+soal.forEach((s,i)=>{
+  let h = `<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;
+  s.o.forEach((opt,j)=>{
+    h += `<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`;
+  });
+  h += `</div>`;
+  qz.innerHTML += h;
+});
+document.getElementById('check').onclick = () => {
+  let benar = 0;
+  soal.forEach((s,i)=>{
+    const p = document.querySelector(`input[name=q${i}]:checked`);
+    if(p && parseInt(p.value)===s.a) benar++;
+  });
+  const r = document.getElementById('result');
+  r.textContent = `Skor: ${benar} / ${soal.length} ${benar===soal.length?'🎉 Semua benar!':''}`;
+  r.className = 'result ' + (benar===soal.length?'ok':'warn');
+};
+</script>
+</body>
+</html>
