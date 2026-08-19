@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vektor P1 — Konsep Dasar | Fisika XI</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Vektor · Pertemuan 1</h1>
+    <p class="sub">Konsep Dasar Vektor & Penggambaran Grafis · Kelas XI</p>
+  </div>
+</header>
+<main class="container">
+
+  <section class="card">
+    <h2>📍 Skalar vs Vektor</h2>
+    <p><strong>Besaran skalar</strong> hanya punya <em>besar</em> (nilai + satuan). <strong>Besaran vektor</strong> punya <em>besar DAN arah</em>.</p>
+    <table class="tbl">
+      <tr><th>Skalar</th><th>Vektor</th></tr>
+      <tr><td>Massa, suhu, energi, waktu, jarak</td><td>Perpindahan, kecepatan, gaya, percepatan</td></tr>
+    </table>
+    <div class="rumus">Vektor dilambangkan dengan anak panah: →<br>Panjang panah = besar (nilai)<br>Arah panah = arah vektor</div>
+  </section>
+
+  <section class="card">
+    <h2>🎮 Simulasi: Menggambar Vektor</h2>
+    <p>Atur besar & arah vektor, lihat panahnya di kanvas.</p>
+    <div class="controls">
+      <label>Besar (satuan)
+        <input type="range" id="mag" min="1" max="10" value="5" step="1">
+        <span id="magv" class="badge">5</span>
+      </label>
+      <label>Arah (derajat, 0°=kanan)
+        <input type="range" id="ang" min="0" max="360" value="45" step="5">
+        <span id="angv" class="badge">45°</span>
+      </label>
+    </div>
+    <canvas id="sim" width="320" height="200"></canvas>
+    <p class="note">0° = kanan · 90° = atas · 180° = kiri · 270° = bawah</p>
+  </section>
+
+  <section class="card">
+    <h2>✍️ Kuis Mini</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+</main>
+<footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 1</p></footer>
+<script>
+const cv=document.getElementById('sim'),ctx=cv.getContext('2d');
+function draw(){
+  const m=+document.getElementById('mag').value, a=+document.getElementById('ang').value;
+  document.getElementById('magv').textContent=m;
+  document.getElementById('angv').textContent=a+'°';
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const cx=160,cy=100, scale=14;
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(10,cy);ctx.lineTo(310,cy);ctx.moveTo(cx,10);ctx.lineTo(cx,190);ctx.stroke();
+  const rad=a*Math.PI/180, L=m*scale;
+  const ex=cx+L*Math.cos(rad), ey=cy-L*Math.sin(rad);
+  ctx.strokeStyle='#6366f1';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(ex,ey);ctx.stroke();
+  ctx.fillStyle='#6366f1';ctx.beginPath();ctx.arc(ex,ey,5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#0f172a';ctx.font='12px sans-serif';ctx.fillText('O',cx+5,cy+15);
+  ctx.fillText('|v|='+m,ex+5,ey);
+}
+document.getElementById('mag').oninput=draw;
+document.getElementById('ang').oninput=draw;
+draw();
+const soal=[
+  {q:"Yang termasuk besaran vektor adalah...",o:["Massa","Suhu","Perpindahan","Energi"],a:2},
+  {q:"Vektor memiliki ciri...",o:["Hanya besar","Besar dan arah","Hanya arah","Tidak punya satuan"],a:1},
+  {q:"Anak panah pada vektor menunjukkan...",o:["Besarnya","Arahnya","Warnanya","Waktunya"],a:1}
+];
+const qz=document.getElementById('quiz');
+soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
+document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉':'😊'}`;r.className='result '+(b===soal.length?'ok':'warn');};
+</script>
+</body>
+</html>

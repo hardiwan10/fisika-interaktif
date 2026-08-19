@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vektor P6 — Presentasi & Refleksi | Fisika XI</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Vektor · Pertemuan 6</h1>
+    <p class="sub">Presentasi Proyek, Asesmen & Refleksi · Kelas XI</p>
+  </div>
+</header>
+<main class="container">
+
+  <section class="card">
+    <h2>🎤 Presentasi Proyek</h2>
+    <p>Sajikan hasil "Rancang Jalur Ekspedisi" dengan:</p>
+    <ul>
+      <li>Diagram vektor (gambar perjalanan)</li>
+      <li>Perhitungan komponen & resultan</li>
+      <li>Penjelasan lisan yang jelas & percaya diri</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>📝 Rangkuman Bab 1: Vektor</h2>
+    <div class="rumus">
+      1. Skalar (besar) vs Vektor (besar+arah)<br>
+      2. Penjumlahan: metode segitiga / poligon / komponen<br>
+      3. Pengurangan: A − B = A + (−B)<br>
+      4. Komponen: Aₓ=|A|cosθ, A_y=|A|sinθ<br>
+      5. Dot: A·B=|A||B|cosθ (skalar)<br>
+      6. Cross: |A×B|=|A||B|sinθ (vektor)<br>
+      7. Resultan: |R|=√(Rx²+Ry²)
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>💡 Refleksi</h2>
+    <p>Mengapa vektor penting? Karena alam semesta ini teratur dengan arah & besar — dari gaya gravitasi, angin, hingga navigasi pesawat dan kapal. Vektor adalah "bahasa presisi" yang membantu kita memahami dan merancang teknologi untuk kemajuan bangsa. 🇮🇩</p>
+  </section>
+
+  <section class="card">
+    <h2>✍️ Kuis Akhir Bab</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+</main>
+<footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 6</p></footer>
+<script>
+const soal=[
+  {q:"Besaran yang merupakan vektor adalah...",o:["Massa","Waktu","Gaya","Suhu"],a:2},
+  {q:"Metode untuk menjumlahkan vektor secara analitis adalah...",o:["Metode komponen","Metode acak","Menebak","Mengali"],a:0},
+  {q:"A·B menghasilkan besaran berupa...",o:["Vektor","Skalar","Matriks","Nol selalu"],a:1},
+  {q:"Resultan dua vektor sama besar berlawanan arah = ...",o:["Nol","Dua kali","Sama","Tak tentu"],a:0},
+  {q:"Penguraian vektor memakai rumus...",o:["Aₓ=|A|cosθ","Aₓ=|A|sinθ","Aₓ=|A|tanθ","Aₓ=|A|/θ"],a:0}
+];
+const qz=document.getElementById('quiz');
+soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
+document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉 Semua benar!':''}`;r.className='result '+(b===soal.length?'ok':'warn');};
+</script>
+</body>
+</html>

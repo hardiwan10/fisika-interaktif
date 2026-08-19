@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vektor P5 — Penerapan & Proyek | Fisika XI</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Vektor · Pertemuan 5</h1>
+    <p class="sub">Penerapan Kontekstual & Proyek Ekspedisi · Kelas XI</p>
+  </div>
+</header>
+<main class="container">
+
+  <section class="card">
+    <h2>🌍 Vektor dalam Kehidupan Nyata</h2>
+    <ul>
+      <li><b>Gaya</b> (tarikan tambang, gaya dorong)</li>
+      <li><b>Kecepatan & perpindahan</b> (perahu di sungai berarus, pesawat)</li>
+      <li><b>Navigasi</b> (arah angin, rute ekspedisi)</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>🧭 Proyek: Rancang Jalur Ekspedisi dengan Vektor</h2>
+    <p>Hitung perpindahan total & arah dari beberapa segmen perjalanan.</p>
+    <div class="controls">
+      <label>Segmen 1: jarak (km)<input type="number" id="d1" value="3" step="0.5" min="0"></label>
+      <label>Segmen 1: arah°<input type="number" id="a1" value="0" step="5"></label>
+      <label>Segmen 2: jarak (km)<input type="number" id="d2" value="4" step="0.5" min="0"></label>
+      <label>Segmen 2: arah°<input type="number" id="a2" value="90" step="5"></label>
+      <button id="calc" class="btn">🔢 Hitung Total</button>
+    </div>
+    <div class="readout">
+      <span>Total = <b id="tot">?</b> km</span>
+      <span>Arah = <b id="dir">?</b>°</span>
+    </div>
+    <p class="note">Contoh: belok kanan 90° dari utara = arah timur. Gunakan metode komponen.</p>
+  </section>
+
+  <section class="card">
+    <h2>📋 Tahapan Proyek</h2>
+    <ol>
+      <li>Tentukan titik awal & beberapa checkpoint (segmen perjalanan)</li>
+      <li>Ukur jarak & arah tiap segmen</li>
+      <li>Uraikan tiap segmen ke komponen x,y</li>
+      <li>Jumlahkan → dapat perpindahan total & arahnya</li>
+      <li>Presentasikan dengan diagram vektor</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>✍️ Kuis Mini</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+</main>
+<footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 5</p></footer>
+<script>
+document.getElementById('calc').onclick=()=>{
+  const d1=+document.getElementById('d1').value,a1=+document.getElementById('a1').value*Math.PI/180;
+  const d2=+document.getElementById('d2').value,a2=+document.getElementById('a2').value*Math.PI/180;
+  const x1=d1*Math.cos(a1),y1=d1*Math.sin(a1);
+  const x2=d2*Math.cos(a2),y2=d2*Math.sin(a2);
+  const Rx=x1+x2,Ry=y1+y2;
+  const tot=Math.sqrt(Rx*Rx+Ry*Ry);
+  let dir=Math.atan2(Ry,Rx)*180/Math.PI;if(dir<0)dir+=360;
+  document.getElementById('tot').textContent=tot.toFixed(2);
+  document.getElementById('dir').textContent=dir.toFixed(1);
+};
+const soal=[
+  {q:"Perpindahan total adalah hasil...",o:["Penjumlahan semua vektor segmen","Perkalian vektor","Pengurangan acak","Rata-rata jarak"],a:0},
+  {q:"Perahu melaju ke utara 3 km lalu timur 4 km. Jarak total lurusnya adalah...",o:["7 km","5 km","1 km","12 km"],a:1},
+  {q:"Navigasi menggunakan vektor berguna untuk...",o:["Menentukan arah & rute","Menghitung massa","Mengukur suhu","Menghitung waktu"],a:0}
+];
+const qz=document.getElementById('quiz');
+soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
+document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉':''}`;r.className='result '+(b===soal.length?'ok':'warn');};
+</script>
+</body>
+</html>

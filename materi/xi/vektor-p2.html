@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vektor P2 — Penjumlahan Grafis | Fisika XI</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Vektor · Pertemuan 2</h1>
+    <p class="sub">Penjumlahan & Pengurangan Grafis · Kelas XI</p>
+  </div>
+</header>
+<main class="container">
+
+  <section class="card">
+    <h2>➕ Penjumlahan Vektor (Metode Segitiga)</h2>
+    <p>Ujung vektor pertama disambung ke pangkal vektor kedua. Resultan = dari pangkal pertama ke ujung terakhir.</p>
+    <div class="rumus">R = A + B</div>
+    <p class="note">Metode poligon = segitiga untuk >2 vektor (sambung berurutan).</p>
+  </section>
+
+  <section class="card">
+    <h2>➖ Pengurangan Vektor</h2>
+    <p>A − B = A + (−B). Balik arah B (−B), lalu jumlahkan seperti segitiga.</p>
+    <div class="rumus">A − B = A + (−B)</div>
+  </section>
+
+  <section class="card">
+    <h2>🎮 Simulasi: Resultan Dua Vektor</h2>
+    <p>Atur besar & arah A dan B, lihat vektor resultan R (garis hijau).</p>
+    <div class="controls">
+      <label>A: besar
+        <input type="range" id="ma" min="1" max="10" value="5" step="1"><span id="mav" class="badge">5</span>
+      </label>
+      <label>A: arah°
+        <input type="range" id="aa" min="0" max="360" value="0" step="5"><span id="aav" class="badge">0°</span>
+      </label>
+      <label>B: besar
+        <input type="range" id="mb" min="1" max="10" value="4" step="1"><span id="mbv" class="badge">4</span>
+      </label>
+      <label>B: arah°
+        <input type="range" id="ab" min="0" max="360" value="90" step="5"><span id="abv" class="badge">90°</span>
+      </label>
+    </div>
+    <canvas id="sim" width="320" height="220"></canvas>
+    <div class="readout"><span>|R| = <b id="rres">?</b></span></div>
+  </section>
+
+  <section class="card">
+    <h2>✍️ Kuis Mini</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+</main>
+<footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 2</p></footer>
+<script>
+const cv=document.getElementById('sim'),ctx=cv.getContext('2d');
+const cx=160,cy=110,scale=12;
+function vec(m,a){const r=a*Math.PI/180;return {x:m*scale*Math.cos(r),y:-m*scale*Math.sin(r)};}
+function draw(){
+  const A=vec(+document.getElementById('ma').value,+document.getElementById('aa').value);
+  const B=vec(+document.getElementById('mb').value,+document.getElementById('ab').value);
+  document.getElementById('mav').textContent=document.getElementById('ma').value;
+  document.getElementById('aav').textContent=document.getElementById('aa').value+'°';
+  document.getElementById('mbv').textContent=document.getElementById('mb').value;
+  document.getElementById('abv').textContent=document.getElementById('ab').value+'°';
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(10,cy);ctx.lineTo(310,cy);ctx.moveTo(cx,10);ctx.lineTo(cx,210);ctx.stroke();
+  // A (biru)
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+A.x,cy+A.y);ctx.stroke();
+  // B (oranye) dari ujung A
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx+A.x,cy+A.y);ctx.lineTo(cx+A.x+B.x,cy+A.y+B.y);ctx.stroke();
+  // R (hijau) dari O ke ujung B
+  ctx.strokeStyle='#22c55e';ctx.lineWidth=3;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+A.x+B.x,cy+A.y+B.y);ctx.stroke();ctx.setLineDash([]);
+  const magR=Math.sqrt((A.x+B.x)**2+(A.y+B.y)**2)/scale;
+  document.getElementById('rres').textContent=magR.toFixed(1);
+}
+['ma','aa','mb','ab'].forEach(id=>document.getElementById(id).oninput=draw);
+draw();
+const soal=[
+  {q:"Metode segitiga untuk penjumlahan vektor dilakukan dengan cara...",o:["Pangkal A disambung ujung B","Ujung A disambung pangkal B","Kedua pangkal di titik yang sama","Membalik arah keduanya"],a:1},
+  {q:"A − B sama dengan...",o:["A + B","A + (−B)","−A + B","B − A"],a:1},
+  {q:"Resultan dua vektor sama besar berlawanan arah adalah...",o:["Nol","Dua kali besar","Tetap sama","Tidak tentu"],a:0}
+];
+const qz=document.getElementById('quiz');
+soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
+document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉':''}`;r.className='result '+(b===soal.length?'ok':'warn');};
+</script>
+</body>
+</html>

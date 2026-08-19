@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vektor P3 — Metode Komponen | Fisika XI</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Vektor · Pertemuan 3</h1>
+    <p class="sub">Operasi Vektor Secara Analitis (Komponen) · Kelas XI</p>
+  </div>
+</header>
+<main class="container">
+
+  <section class="card">
+    <h2>📐 Menguraikan Vektor ke Komponen</h2>
+    <p>Vektor A dengan besar |A| dan arah θ dapat diuraikan:</p>
+    <div class="rumus">
+      Aₓ = |A| · cos θ<br>
+      A_y = |A| · sin θ
+    </div>
+    <p class="note">θ = sudut terhadap sumbu X positif</p>
+  </section>
+
+  <section class="card">
+    <h2>🔢 Penjumlahan Komponen</h2>
+    <div class="rumus">
+      Rₓ = Aₓ + Bₓ<br>
+      R_y = A_y + B_y<br>
+      |R| = √(Rₓ² + R_y²)<br>
+      θ_R = arctan(R_y / Rₓ)
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🎮 Kalkulator Komponen</h2>
+    <div class="controls">
+      <label>|A|
+        <input type="number" id="ma" value="5" step="0.5" min="0"></label>
+      <label>θ_A (°)
+        <input type="number" id="aa" value="30" step="5"></label>
+      <label>|B|
+        <input type="number" id="mb" value="4" step="0.5" min="0"></label>
+      <label>θ_B (°)
+        <input type="number" id="ab" value="120" step="5"></label>
+      <button id="calc" class="btn">🔢 Hitung Resultan</button>
+    </div>
+    <div class="readout">
+      <span>Rₓ = <b id="rx">?</b></span>
+      <span>R_y = <b id="ry">?</b></span>
+      <span>|R| = <b id="rmag">?</b></span>
+      <span>θ_R = <b id="rth">?</b>°</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>✍️ Kuis Mini</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+</main>
+<footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 3</p></footer>
+<script>
+document.getElementById('calc').onclick=()=>{
+  const ma=+document.getElementById('ma').value, aa=+document.getElementById('aa').value*Math.PI/180;
+  const mb=+document.getElementById('mb').value, ab=+document.getElementById('ab').value*Math.PI/180;
+  const Ax=ma*Math.cos(aa), Ay=ma*Math.sin(aa);
+  const Bx=mb*Math.cos(ab), By=mb*Math.sin(ab);
+  const Rx=Ax+Bx, Ry=Ay+By;
+  const Rmag=Math.sqrt(Rx*Rx+Ry*Ry);
+  let Rth=Math.atan2(Ry,Rx)*180/Math.PI;
+  document.getElementById('rx').textContent=Rx.toFixed(2);
+  document.getElementById('ry').textContent=Ry.toFixed(2);
+  document.getElementById('rmag').textContent=Rmag.toFixed(2);
+  document.getElementById('rth').textContent=Rth.toFixed(1);
+};
+const soal=[
+  {q:"Komponen x dari vektor besar 10 dengan arah 0° adalah...",o:["0","10","5","10√2"],a:1},
+  {q:"Rumus besar resultan dari komponen adalah...",o:["Rx+Ry","√(Rx²+Ry²)","Rx·Ry","(Rx+Ry)/2"],a:1},
+  {q:"Vektor dengan komponen (3,4) memiliki besar...",o:["5","7","12","1"],a:0}
+];
+const qz=document.getElementById('quiz');
+soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
+document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉':''}`;r.className='result '+(b===soal.length?'ok':'warn');};
+</script>
+</body>
+</html>
