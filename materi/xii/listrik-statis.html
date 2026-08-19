@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listrik Statis — Fisika XII</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <a href="../../index.html" class="back">← Daftar Materi</a>
+    <h1>Listrik Statis</h1>
+    <p class="sub">Bab 1 · Kelas XII · Semester 1</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- PENGANTAR -->
+  <section class="card">
+    <h2>⚡ Apa itu Listrik Statis?</h2>
+    <p><strong>Listrik statis</strong> adalah muatan listrik yang <strong>diam</strong> (tidak mengalir). Terjadi karena perpindahan elektron antar benda, misalnya gesekan penggaris plastik dengan rambut kering.</p>
+    <div class="rumus">
+      Muatan elementer: e = 1,6 × 10⁻¹⁹ C<br>
+      Muatan total: Q = n · e
+    </div>
+    <p class="note">C = Coulomb (satuan muatan) · n = jumlah elektron · e = muatan 1 elektron</p>
+  </section>
+
+  <!-- HUKUM COULOMB -->
+  <section class="card">
+    <h2>🧲 Hukum Coulomb</h2>
+    <p>Gaya tarik-menarik atau tolak-menolak antara dua muatan sebanding dengan hasil kali muatan dan berbalik terbalik dengan kuadrat jaraknya.</p>
+    <div class="rumus">
+      F = k · (Q₁ · Q₂) / r²
+    </div>
+    <p class="note">k = 9 × 10⁹ N·m²/C² (tetapan Coulomb) · Q = muatan (C) · r = jarak (m)</p>
+
+    <h3>🎮 Kalkulator Gaya Coulomb</h3>
+    <div class="controls">
+      <label>Muatan Q₁ (μC)
+        <input type="number" id="q1" value="2" step="0.5">
+      </label>
+      <label>Muatan Q₂ (μC)
+        <input type="number" id="q2" value="-3" step="0.5">
+      </label>
+      <label>Jarak r (m)
+        <input type="number" id="r" value="0.5" step="0.1" min="0.1">
+      </label>
+      <button id="calcC" class="btn">🔢 Hitung Gaya</button>
+    </div>
+    <div class="readout">
+      <span>F = <b id="fres">?</b> N</span>
+      <span id="fjenis" class="badge">—</span>
+    </div>
+  </section>
+
+  <!-- MEDAN LISTRIK -->
+  <section class="card">
+    <h2>🌐 Medan Listrik</h2>
+    <p><strong>Medan listrik</strong> (E) adalah gaya per satuan muatan yang dirasakan di suatu titik akibat muatan sumber.</p>
+    <div class="rumus">
+      E = F / q = k · Q / r²
+    </div>
+    <p class="note">E = kuat medan listrik (N/C) · q = muatan uji (C)</p>
+
+    <h3>🎮 Kalkulator Medan Listrik</h3>
+    <div class="controls">
+      <label>Muatan sumber Q (μC)
+        <input type="number" id="mq" value="5" step="0.5">
+      </label>
+      <label>Jarak r (m)
+        <input type="number" id="mr" value="1" step="0.1" min="0.1">
+      </label>
+      <button id="calcE" class="btn">🔢 Hitung Medan</button>
+    </div>
+    <div class="readout">
+      <span>E = <b id="eres">?</b> N/C</span>
+    </div>
+  </section>
+
+  <!-- POTENSIAL -->
+  <section class="card">
+    <h2>🔋 Potensial Listrik</h2>
+    <p><strong>Potensial listrik</strong> (V) adalah energi potensial per satuan muatan di suatu titik.</p>
+    <div class="rumus">
+      V = k · Q / r
+    </div>
+    <p class="note">V = potensial (Volt) · Q = muatan sumber (C) · r = jarak (m)</p>
+    <p>Energi potensial: <span class="rumus-inline">W = Q · V</span></p>
+  </section>
+
+  <!-- KAPASITOR -->
+  <section class="card">
+    <h2>🔌 Kapasitor</h2>
+    <p><strong>Kapasitor</strong> menyimpan muatan listrik. Kapasitasnya (C) sebanding dengan luas pelat dan berbalik terbalik dengan jarak antar pelat.</p>
+    <div class="rumus">
+      C = Q / V = ε₀ · A / d
+    </div>
+    <p class="note">C = kapasitas (Farad) · ε₀ = 8,85 × 10⁻¹² F/m · A = luas pelat · d = jarak pelat</p>
+    <p>Energi tersimpan: <span class="rumus-inline">W = 1/2 · C · V²</span></p>
+    <p><strong>Seri:</strong> 1/Ctotal = 1/C₁ + 1/C₂ + ...<br>
+       <strong>Paralel:</strong> Ctotal = C₁ + C₂ + ...</p>
+  </section>
+
+  <!-- SIMULASI INTERAKTIF -->
+  <section class="card">
+    <h2>🎮 Simulasi: Dua Muatan</h2>
+    <p>Geser slider untuk mengubah jarak dua muatan, lihat bagaimana gaya berubah (F ∝ 1/r²).</p>
+    <div class="controls">
+      <label>Jarak r (m)
+        <input type="range" id="simr" min="0.1" max="5" value="1" step="0.1">
+        <span id="simrval" class="badge">1.0</span>
+      </label>
+    </div>
+    <canvas id="sim" width="320" height="160"></canvas>
+    <div class="readout">
+      <span>F = <b id="simf">?</b> N</span>
+    </div>
+  </section>
+
+  <!-- KUIS MINI -->
+  <section class="card">
+    <h2>✍️ Kuis Mini</h2>
+    <div id="quiz"></div>
+    <button id="check" class="btn">Periksa Jawaban</button>
+    <p id="result" class="result"></p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Dibuat untuk siswa MAN 1 Soppeng · Fisika Kelas XII · Bab 1 Listrik Statis</p>
+</footer>
+
+<script>
+// ===== KALKULATOR COULOMB =====
+document.getElementById('calcC').onclick = () => {
+  const q1 = parseFloat(document.getElementById('q1').value) * 1e-6;
+  const q2 = parseFloat(document.getElementById('q2').value) * 1e-6;
+  const r  = parseFloat(document.getElementById('r').value);
+  const k  = 9e9;
+  const F  = k * Math.abs(q1*q2) / (r*r);
+  document.getElementById('fres').textContent = F.toExponential(2);
+  document.getElementById('fjenis').textContent = (q1*q2 < 0) ? 'Tarik-menarik' : 'Tolak-menolak';
+};
+// ===== KALKULATOR MEDAN =====
+document.getElementById('calcE').onclick = () => {
+  const Q = parseFloat(document.getElementById('mq').value) * 1e-6;
+  const r = parseFloat(document.getElementById('mr').value);
+  const k = 9e9;
+  const E = k * Math.abs(Q) / (r*r);
+  document.getElementById('eres').textContent = E.toExponential(2);
+};
+// ===== SIMULASI DUA MUATAN =====
+const cv = document.getElementById('sim');
+const ctx = cv.getContext('2d');
+const k = 9e9, Qa = 2e-6, Qb = -3e-6;
+function drawSim(r){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const F = k * Math.abs(Qa*Qb) / (r*r);
+  document.getElementById('simf').textContent = F.toExponential(2);
+  // dua muatan
+  ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(60,80,14,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#3b82f6'; ctx.beginPath(); ctx.arc(260,80,14,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#0f172a'; ctx.font='12px sans-serif';
+  ctx.fillText('+Q₁', 52, 110); ctx.fillText('−Q₂', 252, 110);
+  // garis jarak
+  ctx.strokeStyle = '#94a3b8'; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(74,80); ctx.lineTo(246,80); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillText('r = '+r.toFixed(1)+' m', 130, 70);
+}
+document.getElementById('simr').oninput = e => {
+  document.getElementById('simrval').textContent = parseFloat(e.target.value).toFixed(1);
+  drawSim(parseFloat(e.target.value));
+};
+drawSim(1);
+
+// ===== KUIS =====
+const soal = [
+  {q:"Satuan muatan listrik dalam SI adalah...", o:["Ampere","Coulomb","Volt","Farad"], a:1},
+  {q:"Dua muatan sejenis akan saling...", o:["Tarik-menarik","Tolak-menolak","Netral","Melebur"], a:1},
+  {q:"Berdasarkan hukum Coulomb, jika jarak dua muatan diperbesar 2×, gaya menjadi...", o:["2× lipat","4× lipat","1/2×","1/4×"], a:3},
+  {q:"Rumus kuat medan listrik adalah...", o:["E = F·q","E = F/q","E = k·Q·r²","E = Q/V"], a:1},
+  {q:"Kapasitor yang disusun paralel memiliki kapasitas total...", o:["1/C₁+1/C₂","C₁·C₂","C₁+C₂","C₁/C₂"], a:2}
+];
+const qz = document.getElementById('quiz');
+soal.forEach((s,i)=>{
+  let h = `<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;
+  s.o.forEach((opt,j)=>{ h += `<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`; });
+  h += `</div>`;
+  qz.innerHTML += h;
+});
+document.getElementById('check').onclick = () => {
+  let benar = 0;
+  soal.forEach((s,i)=>{
+    const p = document.querySelector(`input[name=q${i}]:checked`);
+    if(p && parseInt(p.value)===s.a) benar++;
+  });
+  const r = document.getElementById('result');
+  r.textContent = `Skor: ${benar} / ${soal.length} ${benar===soal.length?'🎉 Semua benar!':''}`;
+  r.className = 'result ' + (benar===soal.length?'ok':'warn');
+};
+</script>
+</body>
+</html>
