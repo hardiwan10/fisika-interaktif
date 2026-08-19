@@ -17,30 +17,57 @@
 <main class="container">
 
   <section class="card">
-    <h2>📍 Skalar vs Vektor</h2>
-    <p><strong>Besaran skalar</strong> hanya punya <em>besar</em> (nilai + satuan). <strong>Besaran vektor</strong> punya <em>besar DAN arah</em>.</p>
+    <h2>📍 A. Skalar vs Vektor</h2>
+    <p><strong>Besaran skalar</strong> hanya memiliki <em>besar</em> (nilai + satuan), tidak punya arah. Contoh: massa, panjang, waktu, suhu, energi, jarak, kecepatan rata-rata (besaran).</p>
+    <p><strong>Besaran vektor</strong> memiliki <em>besar DAN arah</em>. Contoh: perpindahan, kecepatan, percepatan, gaya, momentum, berat.</p>
     <table class="tbl">
       <tr><th>Skalar</th><th>Vektor</th></tr>
-      <tr><td>Massa, suhu, energi, waktu, jarak</td><td>Perpindahan, kecepatan, gaya, percepatan</td></tr>
+      <tr><td>Massa 5 kg</td><td>Perpindahan 5 m ke utara</td></tr>
+      <tr><td>Waktu 10 s</td><td>Gaya 20 N ke kanan</td></tr>
+      <tr><td>Energi 100 J</td><td>Kecepatan 60 km/jam ke timur</td></tr>
     </table>
-    <div class="rumus">Vektor dilambangkan dengan anak panah: →<br>Panjang panah = besar (nilai)<br>Arah panah = arah vektor</div>
+    <div class="rumus">Vektor dilambangkan dengan huruf tebal <b>v</b> atau anak panah →<br>Panjang panah ∝ besar (pakai skala)<br>Arah panah = arah vektor</div>
+  </section>
+
+  <section class="card">
+    <h2>📐 B. Notasi & Komponen Vektor</h2>
+    <p>Vektor A dapat ditulis:</p>
+    <div class="rumus">A = besaran vektor<br>|A| atau A = besar (nilai) vektor</div>
+    <p>Dalam koordinat Kartesius, vektor posisi dinyatakan dengan <b>vektor satuan</b> î (sumbu x) dan ĵ (sumbu y):</p>
+    <div class="rumus">A = Aₓ î + A_y ĵ</div>
+    <p class="note">Aₓ = komponen sumbu x, A_y = komponen sumbu y</p>
+  </section>
+
+  <section class="card">
+    <h2>✏️ C. Menggambar Vektor (Skala)</h2>
+    <p>Gunakan skala misal 1 cm = 2 N. Vektor 6 N digambar panjang 3 cm dengan arah sesuai sudutnya.</p>
+    <p><b>Contoh:</b> Vektor gaya 10 N ke arah 30° terhadap horizontal digambar dengan panjang sesuai skala dan diputar 30° dari sumbu x.</p>
+  </section>
+
+  <section class="card">
+    <h2>🔍 D. Contoh Soal</h2>
+    <p><b>Soal:</b> Sebutkan mana yang vektor dari: (a) suhu 30°C, (b) perpindahan 50 m ke barat, (c) massa 2 kg, (d) gaya 5 N ke atas.</p>
+    <p><b>Jawab:</b> Yang vektor = (b) perpindahan (punya arah barat) dan (d) gaya (punya arah atas). (a) dan (c) skalar.</p>
+  </section>
+
+  <section class="card">
+    <h2>🎯 E. Latihan</h2>
+    <p>1. Mengapa kecepatan termasuk vektor tapi jarak termasuk skalar?<br>
+    2. Gambarkan vektor 4 N ke arah utara dan vektor 3 N ke arah timur pada kertas berskala.<br>
+    3. Diketahui vektor posisi A = 3î + 4ĵ. Berapa besar |A|?</p>
+    <details><summary>Kunci Jawaban</summary>
+    <p>1. Kecepatan punya arah, jarak hanya total panjang lintasan tanpa arah.<br>
+    2. (gambar: panah utara 4 cm, panah timur 3 cm dari titik sama)<br>
+    3. |A| = √(3²+4²) = √25 = 5 satuan.</p></details>
   </section>
 
   <section class="card">
     <h2>🎮 Simulasi: Menggambar Vektor</h2>
-    <p>Atur besar & arah vektor, lihat panahnya di kanvas.</p>
     <div class="controls">
-      <label>Besar (satuan)
-        <input type="range" id="mag" min="1" max="10" value="5" step="1">
-        <span id="magv" class="badge">5</span>
-      </label>
-      <label>Arah (derajat, 0°=kanan)
-        <input type="range" id="ang" min="0" max="360" value="45" step="5">
-        <span id="angv" class="badge">45°</span>
-      </label>
+      <label>Besar (satuan)<input type="range" id="mag" min="1" max="10" value="5" step="1"><span id="magv" class="badge">5</span></label>
+      <label>Arah (°, 0=kanan)<input type="range" id="ang" min="0" max="360" value="45" step="5"><span id="angv" class="badge">45°</span></label>
     </div>
     <canvas id="sim" width="320" height="200"></canvas>
-    <p class="note">0° = kanan · 90° = atas · 180° = kiri · 270° = bawah</p>
   </section>
 
   <section class="card">
@@ -54,23 +81,17 @@
 <script>
 const cv=document.getElementById('sim'),ctx=cv.getContext('2d');
 function draw(){
-  const m=+document.getElementById('mag').value, a=+document.getElementById('ang').value;
-  document.getElementById('magv').textContent=m;
-  document.getElementById('angv').textContent=a+'°';
+  const m=+document.getElementById('mag').value,a=+document.getElementById('ang').value;
+  document.getElementById('magv').textContent=m;document.getElementById('angv').textContent=a+'°';
   ctx.clearRect(0,0,cv.width,cv.height);
-  const cx=160,cy=100, scale=14;
-  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(10,cy);ctx.lineTo(310,cy);ctx.moveTo(cx,10);ctx.lineTo(cx,190);ctx.stroke();
-  const rad=a*Math.PI/180, L=m*scale;
-  const ex=cx+L*Math.cos(rad), ey=cy-L*Math.sin(rad);
+  const cx=160,cy=100,scale=14;
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(10,cy);ctx.lineTo(310,cy);ctx.moveTo(cx,10);ctx.lineTo(cx,190);ctx.stroke();
+  const rad=a*Math.PI/180,L=m*scale,ex=cx+L*Math.cos(rad),ey=cy-L*Math.sin(rad);
   ctx.strokeStyle='#6366f1';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(ex,ey);ctx.stroke();
   ctx.fillStyle='#6366f1';ctx.beginPath();ctx.arc(ex,ey,5,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#0f172a';ctx.font='12px sans-serif';ctx.fillText('O',cx+5,cy+15);
-  ctx.fillText('|v|='+m,ex+5,ey);
+  ctx.fillStyle='#0f172a';ctx.font='12px sans-serif';ctx.fillText('O',cx+5,cy+15);ctx.fillText('|v|='+m,ex+5,ey);
 }
-document.getElementById('mag').oninput=draw;
-document.getElementById('ang').oninput=draw;
-draw();
+document.getElementById('mag').oninput=draw;document.getElementById('ang').oninput=draw;draw();
 const soal=[
   {q:"Yang termasuk besaran vektor adalah...",o:["Massa","Suhu","Perpindahan","Energi"],a:2},
   {q:"Vektor memiliki ciri...",o:["Hanya besar","Besar dan arah","Hanya arah","Tidak punya satuan"],a:1},
@@ -78,7 +99,7 @@ const soal=[
 ];
 const qz=document.getElementById('quiz');
 soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
-document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉':'😊'}`;r.className='result '+(b===soal.length?'ok':'warn');};
+document.getElementById('check').onclick=()=>{let b=0;soal.forEach((s,i)=>{const p=document.querySelector(`input[name=q${i}]:checked`);if(p&&+p.value===s.a)b++;});const r=document.getElementById('result');r.textContent=`Skor: ${b}/${soal.length} ${b===soal.length?'🎉':''}`;r.className='result '+(b===soal.length?'ok':'warn');};
 </script>
 </body>
 </html>

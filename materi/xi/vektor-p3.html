@@ -17,43 +17,60 @@
 <main class="container">
 
   <section class="card">
-    <h2>📐 Menguraikan Vektor ke Komponen</h2>
-    <p>Vektor A dengan besar |A| dan arah θ dapat diuraikan:</p>
+    <h2>📐 A. Menguraikan Vektor ke Komponen</h2>
+    <p>Vektor A dengan besar |A| dan arah θ (thd sumbu x positif) diuraikan:</p>
     <div class="rumus">
       Aₓ = |A| · cos θ<br>
       A_y = |A| · sin θ
     </div>
-    <p class="note">θ = sudut terhadap sumbu X positif</p>
+    <p class="note">θ diukur dari sumbu X positif berlawanan arah jarum jam.</p>
   </section>
 
   <section class="card">
-    <h2>🔢 Penjumlahan Komponen</h2>
+    <h2>🔢 B. Penjumlahan & Pengurangan Komponen</h2>
     <div class="rumus">
       Rₓ = Aₓ + Bₓ<br>
       R_y = A_y + B_y<br>
       |R| = √(Rₓ² + R_y²)<br>
       θ_R = arctan(R_y / Rₓ)
     </div>
+    <p>Pengurangan: R = A − B → Rₓ = Aₓ − Bₓ, R_y = A_y − B_y.</p>
+  </section>
+
+  <section class="card">
+    <h2>🔍 C. Contoh Soal</h2>
+    <p><b>Soal:</b> Vektor A = 5 N, 30°; B = 4 N, 120°. Hitung resultan R!</p>
+    <p><b>Penyelesaian:</b><br>
+    Aₓ = 5·cos30° = 5·0,866 = 4,33 &nbsp; A_y = 5·sin30° = 5·0,5 = 2,5<br>
+    Bₓ = 4·cos120° = 4·(−0,5) = −2 &nbsp; B_y = 4·sin120° = 4·0,866 = 3,46<br>
+    Rₓ = 4,33 + (−2) = 2,33 &nbsp; R_y = 2,5 + 3,46 = 5,96<br>
+    |R| = √(2,33² + 5,96²) = √(5,43 + 35,52) = √40,95 ≈ 6,4 N<br>
+    θ_R = arctan(5,96/2,33) ≈ 68,7°</p>
+  </section>
+
+  <section class="card">
+    <h2>🎯 D. Latihan</h2>
+    <p>1. Urai vektor 10 N, 0° ke komponen.<br>
+    2. A = 3î + 4ĵ, B = 1î − 2ĵ. Hitung A + B dan |A + B|.<br>
+    3. Vektor 8 N ke arah 90° (utara). Berapa komponen x dan y-nya?</p>
+    <details><summary>Kunci</summary>
+    <p>1. Aₓ=10, A_y=0.<br>
+    2. A+B = 4î+2ĵ, |A+B|=√(16+4)=√20≈4,47.<br>
+    3. Aₓ=8·cos90°=0, A_y=8·sin90°=8.</p></details>
   </section>
 
   <section class="card">
     <h2>🎮 Kalkulator Komponen</h2>
     <div class="controls">
-      <label>|A|
-        <input type="number" id="ma" value="5" step="0.5" min="0"></label>
-      <label>θ_A (°)
-        <input type="number" id="aa" value="30" step="5"></label>
-      <label>|B|
-        <input type="number" id="mb" value="4" step="0.5" min="0"></label>
-      <label>θ_B (°)
-        <input type="number" id="ab" value="120" step="5"></label>
+      <label>|A|<input type="number" id="ma" value="5" step="0.5" min="0"></label>
+      <label>θ_A°<input type="number" id="aa" value="30" step="5"></label>
+      <label>|B|<input type="number" id="mb" value="4" step="0.5" min="0"></label>
+      <label>θ_B°<input type="number" id="ab" value="120" step="5"></label>
       <button id="calc" class="btn">🔢 Hitung Resultan</button>
     </div>
     <div class="readout">
-      <span>Rₓ = <b id="rx">?</b></span>
-      <span>R_y = <b id="ry">?</b></span>
-      <span>|R| = <b id="rmag">?</b></span>
-      <span>θ_R = <b id="rth">?</b>°</span>
+      <span>Rₓ = <b id="rx">?</b></span><span>R_y = <b id="ry">?</b></span>
+      <span>|R| = <b id="rmag">?</b></span><span>θ_R = <b id="rth">?</b>°</span>
     </div>
   </section>
 
@@ -67,12 +84,10 @@
 <footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 3</p></footer>
 <script>
 document.getElementById('calc').onclick=()=>{
-  const ma=+document.getElementById('ma').value, aa=+document.getElementById('aa').value*Math.PI/180;
-  const mb=+document.getElementById('mb').value, ab=+document.getElementById('ab').value*Math.PI/180;
-  const Ax=ma*Math.cos(aa), Ay=ma*Math.sin(aa);
-  const Bx=mb*Math.cos(ab), By=mb*Math.sin(ab);
-  const Rx=Ax+Bx, Ry=Ay+By;
-  const Rmag=Math.sqrt(Rx*Rx+Ry*Ry);
+  const ma=+document.getElementById('ma').value,aa=+document.getElementById('aa').value*Math.PI/180;
+  const mb=+document.getElementById('mb').value,ab=+document.getElementById('ab').value*Math.PI/180;
+  const Ax=ma*Math.cos(aa),Ay=ma*Math.sin(aa),Bx=mb*Math.cos(ab),By=mb*Math.sin(ab);
+  const Rx=Ax+Bx,Ry=Ay+By,Rmag=Math.sqrt(Rx*Rx+Ry*Ry);
   let Rth=Math.atan2(Ry,Rx)*180/Math.PI;
   document.getElementById('rx').textContent=Rx.toFixed(2);
   document.getElementById('ry').textContent=Ry.toFixed(2);
@@ -80,9 +95,9 @@ document.getElementById('calc').onclick=()=>{
   document.getElementById('rth').textContent=Rth.toFixed(1);
 };
 const soal=[
-  {q:"Komponen x dari vektor besar 10 dengan arah 0° adalah...",o:["0","10","5","10√2"],a:1},
-  {q:"Rumus besar resultan dari komponen adalah...",o:["Rx+Ry","√(Rx²+Ry²)","Rx·Ry","(Rx+Ry)/2"],a:1},
-  {q:"Vektor dengan komponen (3,4) memiliki besar...",o:["5","7","12","1"],a:0}
+  {q:"Komponen x vektor besar 10 arah 0° adalah...",o:["0","10","5","10√2"],a:1},
+  {q:"Rumus besar resultan dari komponen...",o:["Rx+Ry","√(Rx²+Ry²)","Rx·Ry","(Rx+Ry)/2"],a:1},
+  {q:"Vektor komponen (3,4) punya besar...",o:["5","7","12","1"],a:0}
 ];
 const qz=document.getElementById('quiz');
 soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});

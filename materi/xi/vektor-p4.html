@@ -17,17 +17,38 @@
 <main class="container">
 
   <section class="card">
-    <h2>· Perkalian Titik (Dot Product)</h2>
-    <p>Hasilnya <strong>skalar</strong>. A · B = |A|·|B|·cos θ</p>
-    <div class="rumus">A · B = Aₓ·Bₓ + A_y·B_y = |A||B|cos θ</div>
-    <p class="note">Jika A ⊥ B (θ=90°) → A·B = 0. Contoh fisika: <b>Usaha W = F·s</b></p>
+    <h2>· A. Perkalian Titik (Dot Product)</h2>
+    <p>Hasilnya <strong>skalar</strong>. Mengukur "seberapa sejajar" dua vektor.</p>
+    <div class="rumus">A · B = |A|·|B|·cos θ<br>A · B = Aₓ·Bₓ + A_y·B_y</div>
+    <p>Jika θ=90° (tegak lurus) → A·B = 0. Jika θ=0° → A·B = |A||B| (maksimum).</p>
+    <p><b>Fisika:</b> Usaha W = F · s = |F||s|cos θ.</p>
   </section>
 
   <section class="card">
-    <h2>× Perkalian Silang (Cross Product)</h2>
-    <p>Hasilnya <strong>vektor</strong> (tegak lurus bidang A dan B).</p>
-    <div class="rumus">|A × B| = |A|·|B|·sin θ<br>A × B = (A_y·B_z − A_z·B_y)î + ...</div>
-    <p class="note">Contoh fisika: <b>Torsi/Momen gaya τ = r × F</b>, <b>Gaya Lorentz F = q·v × B</b></p>
+    <h2>× B. Perkalian Silang (Cross Product)</h2>
+    <p>Hasilnya <strong>vektor</strong> yang tegak lurus bidang A dan B (aturan tangan kanan).</p>
+    <div class="rumus">|A × B| = |A|·|B|·sin θ<br>A × B = (A_y·B_z − A_z·B_y)î + (A_z·Bₓ − Aₓ·B_z)ĵ + (Aₓ·B_y − A_y·Bₓ)k̂</div>
+    <p>Jika θ=0° (sejajar) → |A×B| = 0. Jika θ=90° → maksimum.</p>
+    <p><b>Fisika:</b> Torsi/Momen gaya τ = r × F; Gaya Lorentz F = q·v × B.</p>
+  </section>
+
+  <section class="card">
+    <h2>🔍 C. Contoh Soal</h2>
+    <p><b>Soal 1 (Dot):</b> F = 10 N horizontal, benda berpindah 5 m membentuk 60° dg gaya. Usaha?<br>
+    <b>Jawab:</b> W = 10·5·cos60° = 50·0,5 = 25 J.</p>
+    <p><b>Soal 2 (Cross):</b> R = 2 m, F = 10 N tegak lurus terhadap lengan. Torsi?<br>
+    <b>Jawab:</b> τ = 2·10·sin90° = 20 N·m.</p>
+  </section>
+
+  <section class="card">
+    <h2>🎯 D. Latihan</h2>
+    <p>1. A=(1,0), B=(0,1). Berapa A·B?<br>
+    2. Dua vektor sejajar besar 3 & 4. Berapa |A×B|?<br>
+    3. Vektor kecepatan v=(-3,4) m/s. Berapa |v|?</p>
+    <details><summary>Kunci</summary>
+    <p>1. A·B = 1·0+0·1 = 0 (tegak lurus).<br>
+    2. |A×B|=3·4·sin0°=0 (sejajar).<br>
+    3. |v|=√(9+16)=5 m/s.</p></details>
   </section>
 
   <section class="card">
@@ -39,10 +60,7 @@
       <label>θ_B°<input type="number" id="ab" value="60" step="5"></label>
       <button id="calc" class="btn">🔢 Hitung</button>
     </div>
-    <div class="readout">
-      <span>A · B = <b id="dot">?</b></span>
-      <span>|A × B| = <b id="cross">?</b></span>
-    </div>
+    <div class="readout"><span>A · B = <b id="dot">?</b></span><span>|A × B| = <b id="cross">?</b></span></div>
   </section>
 
   <section class="card">
@@ -55,20 +73,16 @@
 <footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 4</p></footer>
 <script>
 document.getElementById('calc').onclick=()=>{
-  const ma=+document.getElementById('ma').value, aa=+document.getElementById('aa').value*Math.PI/180;
-  const mb=+document.getElementById('mb').value, ab=+document.getElementById('ab').value*Math.PI/180;
-  const Ax=ma*Math.cos(aa),Ay=ma*Math.sin(aa);
-  const Bx=mb*Math.cos(ab),By=mb*Math.sin(ab);
-  const dot=Ax*Bx+Ay*By;
-  // 2D cross magnitude = |Ax*By - Ay*Bx|
-  const cross=Math.abs(Ax*By-Ay*Bx);
-  document.getElementById('dot').textContent=dot.toFixed(2);
-  document.getElementById('cross').textContent=cross.toFixed(2);
+  const ma=+document.getElementById('ma').value,aa=+document.getElementById('aa').value*Math.PI/180;
+  const mb=+document.getElementById('mb').value,ab=+document.getElementById('ab').value*Math.PI/180;
+  const Ax=ma*Math.cos(aa),Ay=ma*Math.sin(aa),Bx=mb*Math.cos(ab),By=mb*Math.sin(ab);
+  document.getElementById('dot').textContent=(Ax*Bx+Ay*By).toFixed(2);
+  document.getElementById('cross').textContent=Math.abs(Ax*By-Ay*Bx).toFixed(2);
 };
 const soal=[
-  {q:"Hasil perkalian titik (dot) dua vektor selalu berupa...",o:["Vektor","Skalar","Nol","Matriks"],a:1},
-  {q:"Hasil perkalian silang (cross) adalah...",o:["Skalar","Vektor","Bilangan bulat","Pecahan"],a:1},
-  {q:"Dua vektor saling tegak lurus, maka A·B = ...",o:["Maksimum","Nol","Negatif","Tidak tentu"],a:1}
+  {q:"Hasil perkalian titik selalu berupa...",o:["Vektor","Skalar","Nol","Matriks"],a:1},
+  {q:"Hasil perkalian silang adalah...",o:["Skalar","Vektor","Bilangan bulat","Pecahan"],a:1},
+  {q:"Dua vektor tegak lurus → A·B = ...",o:["Maksimum","Nol","Negatif","Tak tentu"],a:1}
 ];
 const qz=document.getElementById('quiz');
 soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});

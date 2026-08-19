@@ -17,20 +17,20 @@
 <main class="container">
 
   <section class="card">
-    <h2>🎤 Presentasi Proyek</h2>
-    <p>Sajikan hasil "Rancang Jalur Ekspedisi" dengan:</p>
+    <h2>🎤 A. Presentasi Proyek</h2>
+    <p>Sajikan "Rancang Jalur Ekspedisi" dengan:</p>
     <ul>
-      <li>Diagram vektor (gambar perjalanan)</li>
-      <li>Perhitungan komponen & resultan</li>
+      <li>Diagram vektor (gambar perjalanan berurutan)</li>
+      <li>Perhitungan komponen & resultan tiap segmen</li>
       <li>Penjelasan lisan yang jelas & percaya diri</li>
     </ul>
   </section>
 
   <section class="card">
-    <h2>📝 Rangkuman Bab 1: Vektor</h2>
+    <h2>📝 B. Rangkuman Bab 1: Vektor</h2>
     <div class="rumus">
       1. Skalar (besar) vs Vektor (besar+arah)<br>
-      2. Penjumlahan: metode segitiga / poligon / komponen<br>
+      2. Penjumlahan: segitiga / poligon / komponen<br>
       3. Pengurangan: A − B = A + (−B)<br>
       4. Komponen: Aₓ=|A|cosθ, A_y=|A|sinθ<br>
       5. Dot: A·B=|A||B|cosθ (skalar)<br>
@@ -40,8 +40,14 @@
   </section>
 
   <section class="card">
-    <h2>💡 Refleksi</h2>
-    <p>Mengapa vektor penting? Karena alam semesta ini teratur dengan arah & besar — dari gaya gravitasi, angin, hingga navigasi pesawat dan kapal. Vektor adalah "bahasa presisi" yang membantu kita memahami dan merancang teknologi untuk kemajuan bangsa. 🇮🇩</p>
+    <h2>🔍 C. Contoh Soal Akhir</h2>
+    <p><b>Soal:</b> Tiga gaya: F₁=10 N utara, F₂=10 N timur, F₃=10 N barat. Resultan gaya total?</p>
+    <p><b>Jawab:</b> Timur+Barat = 10−10 = 0. Sisa F₁ = 10 N utara. Resultan = 10 N ke utara.</p>
+  </section>
+
+  <section class="card">
+    <h2>💡 D. Refleksi & Nilai Cinta</h2>
+    <p>Vektor adalah "bahasa presisi" alam semesta — mengatur arah gaya, angin, arus, hingga navigasi pesawat & kapal. Memahami vektor berarti mengagumi keteraturan ciptaan Tuhan dan menyiapkan diri berkontribusi pada kemajuan bangsa melalui rekayasa & teknologi. 🇮🇩</p>
   </section>
 
   <section class="card">
@@ -54,11 +60,11 @@
 <footer class="foot"><p>MAN 1 Soppeng · Fisika Kelas XI · Bab 1 Vektor · Pertemuan 6</p></footer>
 <script>
 const soal=[
-  {q:"Besaran yang merupakan vektor adalah...",o:["Massa","Waktu","Gaya","Suhu"],a:2},
-  {q:"Metode untuk menjumlahkan vektor secara analitis adalah...",o:["Metode komponen","Metode acak","Menebak","Mengali"],a:0},
-  {q:"A·B menghasilkan besaran berupa...",o:["Vektor","Skalar","Matriks","Nol selalu"],a:1},
-  {q:"Resultan dua vektor sama besar berlawanan arah = ...",o:["Nol","Dua kali","Sama","Tak tentu"],a:0},
-  {q:"Penguraian vektor memakai rumus...",o:["Aₓ=|A|cosθ","Aₓ=|A|sinθ","Aₓ=|A|tanθ","Aₓ=|A|/θ"],a:0}
+  {q:"Besaran vektor adalah...",o:["Massa","Waktu","Gaya","Suhu"],a:2},
+  {q:"Penjumlahan analitis pakai...",o:["Metode komponen","Menebak","Acak","Mengali"],a:0},
+  {q:"A·B hasilkan...",o:["Vektor","Skalar","Matriks","Nol selalu"],a:1},
+  {q:"Dua vektor berlawanan arah → resultan...",o:["Nol","Dua kali","Sama","Tak tentu"],a:0},
+  {q:"Penguraian vektor rumusnya...",o:["Aₓ=|A|cosθ","Aₓ=|A|sinθ","Aₓ=|A|tanθ","Aₓ=|A|/θ"],a:0}
 ];
 const qz=document.getElementById('quiz');
 soal.forEach((s,i)=>{let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;s.o.forEach((o,j)=>{h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`;});h+=`</div>`;qz.innerHTML+=h;});
