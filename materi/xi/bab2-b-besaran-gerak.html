@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bab 2B — Besaran-Besaran Gerak | Fisika XI</title>
+<meta name="color-scheme" content="light">
+<style>
+:root{
+  --emerald:#0e7a4b; --emerald-600:#0a5e3a; --emerald-50:#ecfdf5;
+  --amber:#f59e0b; --amber-50:#fffbeb;
+  --slate-900:#0f172a; --slate-700:#334155; --slate-500:#64748b; --slate-200:#e2e8f0; --slate-50:#f8fafc;
+  --white:#ffffff;
+  --r:18px; --r2:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--slate-50); color:var(--slate-900); line-height:1.65; -webkit-font-smoothing:antialiased}
+a{color:var(--emerald); text-decoration:none}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{outline:3px solid #a7f3d0; outline-offset:2px}
+.hero{background:var(--emerald); color:#fff; padding:26px 18px 22px;}
+.hero-inner{max-width:720px;margin:0 auto}
+.back{color:#d1fae5;font-size:13px;display:inline-flex;gap:6px;align-items:center;min-height:44px}
+.hero h1{font-size:23px; line-height:1.25; font-weight:800; letter-spacing:-.02em; margin:8px 0 6px}
+.hero p{color:#d1fae5;font-size:13.5px; line-height:1.5}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22); color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600}
+.container{max-width:720px;margin:0 auto; padding:18px 14px 44px; display:flex; flex-direction:column; gap:14px}
+.card{background:var(--white); border-radius:var(--r); padding:18px 16px; box-shadow:0 1px 8px rgba(15,23,42,.05); border:1px solid #eef2f7}
+.card h2{font-size:17px; font-weight:800; letter-spacing:-.02em; color:var(--slate-900); margin-bottom:6px; display:flex; gap:8px; align-items:center}
+.card h3{font-size:15px; font-weight:750; color:var(--slate-900); margin:14px 0 6px}
+.muted{color:var(--slate-500); font-size:13.5px}
+.small{font-size:12.5px; color:var(--slate-500)}
+.rumus{background:var(--slate-50); border:1px solid var(--slate-200); border-left:4px solid var(--emerald); padding:12px 14px; border-radius:10px; font-size:14px; line-height:1.7; margin:10px 0}
+.rumus b{color:var(--emerald-600)}
+.note{font-size:12.5px; color:var(--slate-500); background:var(--amber-50); border:1px solid #fde68a; padding:10px 12px; border-radius:10px; margin-top:10px}
+.kpi{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px}
+.kpi div{background:var(--slate-50); border:1px solid var(--slate-200); border-radius:12px; padding:12px}
+.kpi strong{font-size:18px; display:block; color:var(--emerald-600)}
+.kpi span{font-size:12px; color:var(--slate-500)}
+.controls{display:flex; flex-direction:column; gap:12px; margin-top:12px}
+.row{display:flex; gap:10px; flex-wrap:wrap}
+label{font-size:13px; font-weight:600; color:var(--slate-700); display:flex; flex-direction:column; gap:6px; flex:1; min-width:140px}
+input[type=range]{width:100%; accent-color:var(--emerald)}
+input[type=number], select{width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--slate-200); font-size:14px; background:var(--white)}
+.btn{appearance:none; border:none; background:var(--emerald); color:#fff; padding:12px 16px; border-radius:12px; font-size:14px; font-weight:750; cursor:pointer; min-height:44px; transition:.12s; display:inline-flex; align-items:center; justify-content:center; gap:8px}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--emerald-50); color:var(--emerald-600); border:1px solid #a7f3d0}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+canvas{width:100%; max-width:100%; height:auto; background:#f1f5f9; border-radius:12px; display:block; margin:10px 0; border:1px solid #e2e8f0}
+.readout{display:flex; gap:10px; flex-wrap:wrap; font-size:13px; color:var(--slate-500)}
+.readout b{color:var(--slate-900)}
+.pill{font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; padding:4px 8px; border-radius:999px; border:1px solid var(--slate-200); color:var(--slate-700); background:#fff}
+.pill.ok{background:var(--emerald-50); color:var(--emerald-600); border-color:#a7f3d0}
+.pill.warn{background:var(--amber-50); color:#b45309; border-color:#fde68a}
+.grid2{display:grid; grid-template-columns:1fr; gap:12px}
+@media(min-width:640px){.grid2{grid-template-columns:1fr 1fr} .container{padding:22px 18px 50px}}
+.q{padding:12px 0; border-bottom:1px solid #eef2f7}
+.q:last-child{border:none}
+.q p{font-size:14px; margin-bottom:8px; color:var(--slate-900)}
+.opt{display:flex; gap:10px; align-items:flex-start; font-size:14px; padding:9px 10px; border:1px solid #eef2f7; border-radius:10px; margin-bottom:8px; cursor:pointer; min-height:44px}
+.opt input{margin-top:3px; accent-color:var(--emerald)}
+.result{margin-top:10px; font-weight:750; font-size:14px; padding:10px 12px; border-radius:10px; display:none}
+.result.ok{display:block; background:var(--emerald-50); color:var(--emerald-600); border:1px solid #a7f3d0}
+.result.warn{display:block; background:#fffbeb; color:#b45309; border:1px solid #fde68a}
+.split{display:flex; gap:10px; align-items:center; font-size:12px; color:var(--slate-500); margin:8px 0}
+.split::before, .split::after{content:""; flex:1; height:1px; background:var(--slate-200)}
+.foot{text-align:center; padding:18px; color:var(--slate-500); font-size:12.5px}
+.tag{font-size:11px; font-weight:700; color:var(--emerald-600); background:var(--emerald-50); border:1px solid #a7f3d0; padding:3px 8px; border-radius:999px}
+.list{padding-left:18px; font-size:14px; color:var(--slate-700); display:flex; flex-direction:column; gap:6px; margin-top:8px}
+.table{width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:12px; border:1px solid var(--slate-200); margin-top:10px; font-size:13px}
+.table th{background:var(--slate-900); color:#fff; text-align:left; padding:10px 12px; font-weight:700}
+.table td{padding:10px 12px; border-top:1px solid #eef2f7; background:#fff}
+.table tr:nth-child(even) td{background:var(--slate-50)}
+.mini-nav{display:flex; gap:8px; overflow:auto; padding-bottom:2px}
+.mini-nav a{white-space:nowrap; background:#fff; border:1px solid var(--slate-200); padding:8px 12px; border-radius:999px; font-size:12.5px; font-weight:650; color:var(--slate-700); min-height:44px; display:inline-flex; align-items:center}
+.mini-nav a.active{background:var(--emerald); color:#fff; border-color:var(--emerald)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <a class="back" href="../../index.html">← Daftar Materi</a>
+    <div style="margin-top:10px" class="badge">📍 Bab 2 — Kinematika · Fase F · XI</div>
+    <h1>B. Besaran-Besaran Gerak</h1>
+    <p>Jarak & perpindahan · kelajuan & kecepatan · gerak relatif · kecepatan sesaat & rata-rata · percepatan. Sumber: <em>Buku Fisika SMA/MA Kelas XI</em> (Kemdikbudristek 2022) — Bab 2, bagian B hal. 32–40.</p>
+    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
+      <span class="pill ok">Mobile-first</span>
+      <span class="pill">7–12 menit baca + simulasi</span>
+      <span class="pill">Hitam di atas putih — kontras AA</span>
+    </div>
+  </div>
+</header>
+<main class="container">
+  <nav class="mini-nav" aria-label=".Anchor">
+    <a class="active" href="#jarak">Jarak–Perpindahan</a>
+    <a href="#cepat">Kelajuan–Kecepatan</a>
+    <a href="#relatif">Gerak Relatif</a>
+    <a href="#sesaat">Sesaat & Rata-rata</a>
+    <a href="#percepatan">Percepatan</a>
+    <a href="#kuis">Kuis</a>
+  </nav>
+
+  <section class="card">
+    <h2>🎯 Tujuan</h2>
+    <p class="muted">Setelah ini kamu bisa: membedakan <b>jarak vs perpindahan</b> dan <b>kelajuan vs kecepatan</b>, menghitung kecepatan rata-rata & kelajuan rata-rata, menjelaskan <b>gerak relatif</b>, serta menentukan <b>percepatan</b> dari grafik v–t.</p>
+    <div class="kpi">
+      <div><strong>v̄ = Δx / Δt</strong><span>Kecepatan rata-rata (vektor)</span></div>
+      <div><strong>kelajuan = jarak / Δt</strong><span>Kelajuan rata-rata (skalar)</span></div>
+    </div>
+    <p class="small" style="margin-top:8px">Penekanan buku: perpindahan = <em>perubahan posisi awal → akhir</em> (vektor), jarak = <em>panjang lintasan</em> (skalar). Kecepatan butuh arah, kelajuan tidak.</p>
+  </section>
+
+  <!-- 1 JARAK vs PERPINDAHAN -->
+  <section id="jarak" class="card">
+    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap">
+      <h2>🧭 Jarak &amp; Perpindahan</h2>
+      <span class="tag">Buku hal. 32–33 · Gbr 2.6 & 2.7</span>
+    </div>
+    <p class="muted">Semut: <span style="color:#2563eb; font-weight:700">biru</span> = lintasan berliku (jarak), <span style="color:#dc2626; font-weight:700">merah</span> = garis lurus awal→akhir (perpindahan). Pengendara sepeda hal. 33: jarak 60 km, perpindahan 10 km ke barat.</p>
+
+    <canvas id="semut" width="360" height="200" aria-label="Simulasi jarak vs perpindahan semut"></canvas>
+    <div class="readout">
+      <span>🔵 Jarak <b id="rJarak">—</b> m</span>
+      <span>🔴 Perpindahan <b id="rPindah">—</b> m</span>
+      <span>Selisih <b id="rSelisih">—</b> m</span>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <label>Kelokan lintasan
+          <input type="range" id="kelok" min="0" max="100" value="38">
+        </label>
+        <label>Jarak lurus A→B
+          <input type="range" id="jarakLurus" min="60" max="220" value="140">
+        </label>
+      </div>
+      <div class="row">
+        <button class="btn ghost" id="acakLintasan">🎲 Acak lintasan</button>
+        <button class="btn" id="jelasBtn">Tunjukkan selisih</button>
+      </div>
+    </div>
+    <div class="rumus"><b>Ingat:</b> Perpindahan hanya peduli <b>awal → akhir</b> (arah penting). Jarak peduli <b>semua belokan</b> yang kamu tempuh.</div>
+    <h3>Contoh buku — pengendara sepeda (Gbr 2.7)</h3>
+    <table class="table" aria-label="Contoh jarak dan perpindahan sepeda">
+      <tr><th>Ruas</th><th>Panjang</th><th>Arah</th></tr>
+      <tr><td>O → A</td><td>10 km</td><td>timur</td></tr>
+      <tr><td>A → B</td><td>15 km</td><td>timur</td></tr>
+      <tr><td>B → C</td><td>25 km</td><td>barat</td></tr>
+      <tr><td>C → D</td><td>10 km</td><td>barat</td></tr>
+      <tr><td><b>Jarak total</b></td><td><b>60 km</b></td><td>—</td></tr>
+      <tr><td><b>Perpindahan</b></td><td><b>10 km ke barat</b></td><td>Δx = -10 km</td></tr>
+    </table>
+    <p class="small" style="margin-top:8px">Aktivitas 2.2 buku: coba gambar grafik posisi–waktu untuk data ini di buku tulis — ciri: ke timur naik, ke barat turun, puncak = balik arah.</p>
+  </section>
+
+  <!-- 2 KELAJUAN vs KECEPATAN -->
+  <section id="cepat" class="card">
+    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap">
+      <h2>⚡ Kelajuan &amp; Kecepatan</h2>
+      <span class="tag">Buku hal. 35 & 39</span>
+    </div>
+    <div class="grid2">
+      <div class="rumus"><b>Kecepatan rata-rata</b><br>v̄ = Δx / Δt = (x<sub>akhir</sub> − x<sub>awal</sub>) / (t<sub>akhir</sub> − t<sub>awal</sub>)<br><span class="small">vektor — ada tanda +/− (timur/barat)</span></div>
+      <div class="rumus" style="border-left-color:var(--amber)"><b>Kelajuan rata-rata</b><br>kelajuan = jarak total / Δt<br><span class="small">skalar — selalu positif, tanpa arah</span></div>
+    </div>
+    <h3>Kalkulator — pakai data sepeda tadi</h3>
+    <div class="controls">
+      <div class="row">
+        <label>Jarak total (km) <input type="number" id="inJarak" value="60" step="0.1"></label>
+        <label>Perpindahan (km) <input type="number" id="inPindah" value="-10" step="0.1"></label>
+        <label>Waktu total (jam) <input type="number" id="inWaktu" value="3.5" step="0.1"></label>
+      </div>
+      <div class="kpi">
+        <div><strong id="outLaju">17.1 km/jam</strong><span>Kelajuan rata-rata</span></div>
+        <div><strong id="outCepat">−2.86 km/jam</strong><span>Kecepatan rata-rata (barat)</span></div>
+      </div>
+      <p class="small">Coba ubah: jika perpindahan 0 (kembali ke awal), kecepatan rata-rata = 0 meski kelajuan tetap ada.</p>
+    </div>
+    <div class="note"><b>Spedometer vs radar gun (hal. 38):</b> rambu “80 km/jam” = batas <em>kelajuan sesaat</em>. Speedometer menunjuk kelajuan saat itu, bukan rata-rata sepanjang jalan.</div>
+  </section>
+
+  <!-- 3 GERAK RELATIF -->
+  <section id="relatif" class="card">
+    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap">
+      <h2>🛞 Gerak Relatif</h2>
+      <span class="tag">Buku hal. 36–37 · Pesawat & feri Kapuas</span>
+    </div>
+    <p class="muted"><b>v<sub>pesawat terhadap tanah</sub> = v<sub>pesawat terhadap udara</sub> + v<sub>udara terhadap tanah</sub></b> — persamaan (2.3) buku. Gerak tergantung siapa yang melihat (kerangka acuan).</p>
+    <div class="rumus">v⃗<sub>pt</sub> = v⃗<sub>pu</sub> + v⃗<sub>ut</sub> <span class="small">— penjumlahan vektor kecepatan</span></div>
+    <h3>Simulasi feri Kapuas — menyeberang tegak lurus arus</h3>
+    <p class="small">Sungai 0.41 km lebar. Arus 1.25 m/s ke timur, feri 1.33 m/s ke utara (relatif terhadap air). Hasilnya feri miring terbawa arus — vektor hijau = hasil penjumlahan.</p>
+    <canvas id="feri" width="360" height="220" aria-label="Simulasi penjumlahan vektor feri Kapuas"></canvas>
+    <div class="readout">
+      <span>|v arus| <b id="rArus">1.25</b> m/s →</span>
+      <span>|v feri/air| <b id="rFeri">1.33</b> m/s ↑</span>
+      <span style="color:var(--emerald); font-weight:750">|v feri/tanah| <b id="rHasil">1.83</b> m/s</span>
+      <span>arah <b id="rSudut">43°</b> dari utara</span>
+      <span>hanyut <b id="rHanyut">—</b> m</span>
+    </div>
+    <div class="controls">
+      <label>Kecepatan arus v<sub>ut</sub> (m/s) <input type="range" id="sArus" min="0" max="2.5" value="1.25" step="0.05"></label>
+      <label>Kecepatan feri terhadap air v<sub>pu</sub> (m/s) <input type="range" id="sFeri" min="0.5" max="3" value="1.33" step="0.05"></label>
+    </div>
+    <p class="small">Pesawat contoh buku: 800 km/jam timur + angin 40 km/jam timur = <b>840 km/jam timur</b> terhadap tanah. Jika angin berlawanan, kurangi — vektor, bukan skalar.</p>
+  </section>
+
+  <!-- 4 SESaat & RATA-RATA -->
+  <section id="sesaat" class="card">
+    <h2>⏱️ Kecepatan Sesaat &amp; Rata-rata</h2>
+    <p class="muted">Sesaat = pada satu titik waktu (yang dilihat speedometer). Rata-rata = total perpindahan/jarak dibagi total waktu.</p>
+    <canvas id="vt" width="360" height="200" aria-label="Grafik kecepatan terhadap waktu"></canvas>
+    <div class="row">
+      <label>Pilih titik waktu (s)
+        <input type="range" id="tSesaat" min="0" max="10" value="4" step="0.1">
+      </label>
+      <div style="min-width:140px; background:var(--slate-50); border:1px solid var(--slate-200); border-radius:12px; padding:12px">
+        <div class="small">Kecepatan sesaat</div>
+        <div style="font-size:18px; font-weight:850; color:var(--emerald-600)" id="vSesaat">— m/s</div>
+        <div class="small">Luas di bawah kurva = perpindahan segmen</div>
+      </div>
+    </div>
+    <div style="margin-top:10px" class="kpi">
+      <div><strong id="rataKet">—</strong><span>Kecepatan rata-rata seluruh perjalanan</span></div>
+      <div><strong id="lajuKet">—</strong><span>Kelajuan rata-rata (dari jarak)</span></div>
+    </div>
+    <p class="small">Geser waktu — lihat bagaimana kecepatan sesaat berubah tiap detik, tapi rata-rata tetap satu angka untuk keseluruhan.</p>
+  </section>
+
+  <!-- 5 PERCEPATAN -->
+  <section id="percepatan" class="card">
+    <h2>🚀 Percepatan</h2>
+    <p class="muted">Percepatan = perubahan kecepatan tiap satuan waktu. Jika kecepatan naik teratur → percepatan positif. Jika melambat → negatif (perlambatan).</p>
+    <div class="rumus">ā = Δv / Δt = (v<sub>2</sub> − v<sub>1</sub>) / (t<sub>2</sub> − t<sub>1</sub>) <span class="small">satuan m/s²</span></div>
+    <canvas id="acc" width="360" height="200" aria-label="Grafik percepatan Usain Bolt"></canvas>
+    <div class="controls">
+      <div class="row">
+        <label>t₁ (s) <input type="range" id="t1" min="0" max="9" value="2" step="0.5"></label>
+        <label>t₂ (s) <input type="range" id="t2" min="1" max="10" value="7" step="0.5"></label>
+      </div>
+      <div class="kpi">
+        <div><strong id="dv">— m/s</strong><span>Δv = v₂ − v₁</span></div>
+        <div><strong id="da">— m/s²</strong><span>ā pada [t₁, t₂]</span></div>
+      </div>
+      <p class="small" id="accNote">Seret t₁ & t₂ untuk melihat di mana Usain mempercepat (curam), mempertahankan kecepatan (datar), atau melambat.</p>
+    </div>
+    <div class="note">Buku hal. 40: grafik v–t Usain Bolt — kemiringan grafik = percepatan. Grafik datar = kecepatan tetap (a = 0).</div>
+  </section>
+
+  <!-- AKTIVITAS -->
+  <section class="card">
+    <h2>📝 Aktivitas (dari buku)</h2>
+    <p class="small">Centang yang sudah kamu coba di buku tulis. Simulasi di atas bisa kamu pakai untuk cek.</p>
+    <h3>Aktivitas 2.2 — Grafik posisi–waktu sepeda</h3>
+    <ul class="list">
+      <li><label class="opt" style="border:none; padding:6px 0"><input type="checkbox"> Lengkapi Tabel 2.3 (OA, AB, BC) dan gambar grafik x–t</label></li>
+      <li><label class="opt" style="border:none; padding:6px 0"><input type="checkbox"> Jawab 5 pertanyaan: ciri grafik timur/positif, barat/negatif, balik arah, diam, dan cara baca jarak & perpindahan dari grafik</label></li>
+    </ul>
+    <h3>Aktivitas 2.3 — Grafik kecepatan–waktu</h3>
+    <ul class="list">
+      <li><label class="opt" style="border:none; padding:6px 0"><input type="checkbox"> Buat grafik v–t per segmen, tentukan jarak & perpindahan per segmen dari luas</label></li>
+      <li><label class="opt" style="border:none; padding:6px 0"><input type="checkbox"> Latihan Excel opsional — “Ayo Berteknologi”</label></li>
+    </ul>
+    <h3>Literasi finansial — Jembatan Merah Putih</h3>
+    <p class="small">Garis ungu = panjang jembatan. Ukur Galala→Rumah Tiga dengan & tanpa jembatan, hitung hemat BBM (1 L = 12 km, Rp 7.650/L).</p>
+  </section>
+
+  <section id="kuis" class="card">
+    <h2>✍️ Kuis Mini — Bagian B</h2>
+    <p class="small">5 soal, nilai langsung. Semua jawaban ada di simulasi & rumus di atas.</p>
+    <div id="quiz"></div>
+    <button id="check" class="btn" style="margin-top:12px; width:100%">Periksa jawaban</button>
+    <div id="result" class="result"></div>
+    <div class="split">Selesai kuis</div>
+    <div class="row">
+      <a href="../../index.html" class="btn ghost" style="flex:1">← Daftar materi</a>
+      <button id="resetQuiz" class="btn ghost" style="flex:1">↺ Ulangi kuis</button>
+    </div>
+    <p class="small" style="margin-top:8px">Butuh versi cetak? <a href="#" id="printBtn">Cetak / Simpan PDF</a> · Warna hemat tinta, grafik tetap terbaca.</p>
+  </section>
+</main>
+<footer class="foot">
+  <p>MAN 1 Soppeng · Fisika XI — Bab 2B · Sumber buku resmi Kemdikbudristek (2022) · Dibuat dengan DESIGN.md hijau madrasah + filter antislop (DURING)</p>
+</footer>
+<script>
+// ===== SEMUT: jarak vs perpindahan =====
+const cSemut = document.getElementById('semut'), xSemut=cSemut.getContext('2d');
+const kelokEl=document.getElementById('kelok'), lurusEl=document.getElementById('jarakLurus');
+const rJarak=document.getElementById('rJarak'), rPindah=document.getElementById('rPindah'), rSelisih=document.getElementById('rSelisih');
+let showDiff=false;
+function drawSemut(){
+  const W=cSemut.width, H=cSemut.height;
+  const ax=36, ay=H/2, bx=ax+parseInt(lurusEl.value), by=ay;
+  const k=parseInt(kelokEl.value)/100;
+  const midx=(ax+bx)/2, amp= 18 + k*26;
+  // blue polyline with 6 segments + wobble
+  const pts=[];
+  const n=6;
+  for(let i=0;i<=n;i++){
+    const t=i/n;
+    const x=ax + (bx-ax)*t;
+    const wobble = i===0||i===n?0: Math.sin(i*1.7)*amp * (i%2?1:-1);
+    const y=ay + wobble;
+    pts.push([x,y]);
+  }
+  xSemut.clearRect(0,0,W,H);
+  // grid
+  xSemut.strokeStyle='#e2e8f0'; xSemut.lineWidth=1; xSemut.setLineDash([4,6]);
+  for(let gx=0; gx<W; gx+=36){ xSemut.beginPath(); xSemut.moveTo(gx,0); xSemut.lineTo(gx,H); xSemut.stroke(); }
+  xSemut.setLineDash([]);
+  // red straight (perpindahan)
+  xSemut.strokeStyle='#dc2626'; xSemut.lineWidth=4; xSemut.beginPath(); xSemut.moveTo(ax,ay); xSemut.lineTo(bx,by); xSemut.stroke();
+  // blue path (jarak)
+  xSemut.strokeStyle='#2563eb'; xSemut.lineWidth=3; xSemut.beginPath();
+  pts.forEach((p,i)=> i? xSemut.lineTo(p[0],p[1]): xSemut.moveTo(p[0],p[1])); xSemut.stroke();
+  // highlight selisih band
+  if(showDiff){
+    xSemut.fillStyle='rgba(245,158,11,.14)'; xSemut.strokeStyle='#f59e0b';
+    xSemut.lineWidth=1.5; xSemut.setLineDash([6,6]);
+    xSemut.beginPath();
+    // band between lines: approximate
+    pts.forEach((p,i)=> i? xSemut.lineTo(p[0],p[1]): xSemut.moveTo(p[0],p[1]));
+    xSemut.lineTo(bx,by); xSemut.lineTo(ax,ay); xSemut.closePath(); xSemut.fill(); xSemut.stroke(); xSemut.setLineDash([]);
+  }
+  // points
+  [ [ax,ay,'A'], [bx,by,'B'] ].forEach(([x,y,l])=>{
+    xSemut.fillStyle='#0f172a'; xSemut.beginPath(); xSemut.arc(x,y,7,0,Math.PI*2); xSemut.fill();
+    xSemut.fillStyle='#fff'; xSemut.font='700 10px Inter, sans-serif'; xSemut.textAlign='center'; xSemut.textBaseline='middle'; xSemut.fillText(l,x,y);
+  });
+  // length calc
+  let jarak=0; for(let i=1;i<pts.length;i++){ const dx=pts[i][0]-pts[i-1][0], dy=pts[i][1]-pts[i-1][1]; jarak+=Math.hypot(dx,dy); }
+  const scale=0.22; // px -> m (fiksi, untuk demo)
+  const jM=(jarak*scale); const pM=(Math.abs(bx-ax)*scale);
+  rJarak.textContent=jM.toFixed(1); rPindah.textContent=pM.toFixed(1); rSelisih.textContent=(jM-pM).toFixed(1);
+  xSemut.fillStyle='#334155'; xSemut.font='600 11px Inter, sans-serif'; xSemut.textAlign='left';
+  xSemut.fillText('biru: jarak  |  merah: perpindahan', 10, 16);
+}
+kelokEl.addEventListener('input', drawSemut); lurusEl.addEventListener('input', drawSemut);
+document.getElementById('acakLintasan').onclick=()=>{ kelokEl.value=Math.floor(10+Math.random()*85); lurusEl.value= 80+Math.floor(Math.random()*140); drawSemut(); };
+document.getElementById('jelasBtn').onclick=()=>{ showDiff=!showDiff; drawSemut(); document.getElementById('jelasBtn').textContent= showDiff? 'Sembunyikan selisih' : 'Tunjukkan selisih'; };
+drawSemut();
+
+// ===== KALKULATOR cepat =====
+const inJ=document.getElementById('inJarak'), inP=document.getElementById('inPindah'), inT=document.getElementById('inWaktu');
+const outL=document.getElementById('outLaju'), outC=document.getElementById('outCepat');
+function calcCepat(){
+  const j=parseFloat(inJ.value)||0, p=parseFloat(inP.value)||0, t=parseFloat(inT.value)||1;
+  const laju=j/t, cepat=p/t;
+  outL.textContent=laju.toFixed(2)+' km/jam';
+  outC.textContent=(cepat>=0?'+':'')+cepat.toFixed(2)+' km/jam' + (cepat<0?' (ke barat)': cepat>0?' (ke timur)':'');
+}
+[inJ,inP,inT].forEach(e=> e.addEventListener('input', calcCepat)); calcCepat();
+
+// ===== FERI KAPUAS =====
+const cFeri=document.getElementById('feri'), xF=cFeri.getContext('2d');
+const sArus=document.getElementById('sArus'), sFeri=document.getElementById('sFeri');
+const rArus=document.getElementById('rArus'), rFeri2=document.getElementById('rFeri'), rHasil=document.getElementById('rHasil'), rSudut=document.getElementById('rSudut'), rHanyut=document.getElementById('rHanyut');
+function drawFeri(){
+  const vA=parseFloat(sArus.value), vF=parseFloat(sFeri.value);
+  rArus.textContent=vA.toFixed(2); rFeri2.textContent=vF.toFixed(2);
+  const vH=Math.hypot(vA, vF); rHasil.textContent=vH.toFixed(2);
+  const ang=Math.atan2(vA, vF)*180/Math.PI; rSudut.textContent=Math.abs(ang).toFixed(1)+'°';
+  const lebarM=410, dur=lebarM / vF, hanyut=vA*dur; rHanyut.textContent=hanyut.toFixed(0);
+  const W=cFeri.width, H=cFeri.height;
+  xF.clearRect(0,0,W,H);
+  // river
+  xF.fillStyle='#dbeafe'; xF.fillRect(0, 18, W, H-36);
+  xF.fillStyle='#93c5fd'; // water lines
+  xF.globalAlpha=.35; for(let y=28; y<H-18; y+=18){ xF.fillRect(8, y, W-16, 2); } xF.globalAlpha=1;
+  // banks
+  xF.fillStyle='#f1f5f9'; xF.fillRect(0,0,W,18); xF.fillRect(0,H-18,W,18);
+  xF.fillStyle='#64748b'; xF.font='600 10px Inter, sans-serif'; xF.textAlign='left'; xF.fillText('TEPI SELATAN (start)', 10, 12);
+  xF.textAlign='right'; xF.fillText('TEPI UTARA (tiba)', W-10, H-6);
+  // vectors
+  const ox=90, oy=H-46, sc=38;
+  // v feri/air (north) blue
+  xF.strokeStyle='#2563eb'; xF.lineWidth=3; xF.beginPath(); xF.moveTo(ox,oy); xF.lineTo(ox, oy - vF*sc); xF.stroke();
+  arrow(xF, ox, oy - vF*sc, Math.PI/2+Math.PI, '#2563eb');
+  xF.fillStyle='#1e40af'; xF.font='700 10px Inter, sans-serif'; xF.textAlign='left'; xF.fillText('v feri/air', ox+8, oy - vF*sc/2);
+  // v arus (east) amber
+  const ax2=ox, ay2=oy - vF*sc;
+  xF.strokeStyle='#d97706'; xF.lineWidth=3; xF.beginPath(); xF.moveTo(ax2, ay2); xF.lineTo(ax2 + vA*sc, ay2); xF.stroke();
+  arrow(xF, ax2+vA*sc, ay2, 0, '#d97706');
+  xF.fillStyle='#92400e'; xF.fillText('v arus', ax2 + vA*sc/2 -10, ay2 -8);
+  // resultant green
+  xF.strokeStyle='#0e7a4b'; xF.lineWidth=3.5; xF.beginPath(); xF.moveTo(ox,oy); xF.lineTo(ox + vA*sc, oy - vF*sc); xF.stroke();
+  arrow(xF, ox+vA*sc, oy - vF*sc, Math.atan2(-vF, vA), '#0e7a4b');
+  xF.fillStyle='#0e7a4b'; xF.font='750 10px Inter, sans-serif'; xF.fillText('v feri/tanah', ox+vA*sc+6, oy - vF*sc -2);
+  // drift marker
+  xF.setLineDash([5,5]); xF.strokeStyle='#64748b'; xF.lineWidth=1; xF.beginPath(); xF.moveTo(ox, 18); xF.lineTo(ox + (hanyut/28), 18); xF.stroke(); xF.setLineDash([]);
+  xF.fillStyle='#475569'; xF.font='600 10px Inter, sans-serif'; xF.textAlign='center'; xF.fillText('hanyut ≈ '+Math.round(hanyut)+' m', ox + (hanyut/28)/2, H-22);
+}
+function arrow(ctx,x,y,ang,col){
+  ctx.fillStyle=col; ctx.save(); ctx.translate(x,y); ctx.rotate(-ang); ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-8,4); ctx.lineTo(-8,-4); ctx.closePath(); ctx.fill(); ctx.restore();
+}
+sArus.addEventListener('input', drawFeri); sFeri.addEventListener('input', drawFeri); drawFeri();
+
+// ===== v-t sesaat =====
+const cVt=document.getElementById('vt'), xVt=cVt.getContext('2d');
+const tS=document.getElementById('tSesaat'), vSout=document.getElementById('vSesaat'), rataKet=document.getElementById('rataKet'), lajuKet=document.getElementById('lajuKet');
+// define piecewise v(t): 0-3 naik 0->12, 3-5 datar 12, 5-8 turun 12->4, 8-10 naik 4->10
+function vAt(t){
+  if(t<3) return (12/3)*t;
+  if(t<5) return 12;
+  if(t<8) return 12 + (4-12)*(t-5)/3;
+  return 4 + (10-4)*(t-8)/2;
+}
+function drawVt(){
+  const W=cVt.width, H=cVt.height, pad=28, gw=W-pad-14, gh=H-36;
+  xVt.clearRect(0,0,W,H);
+  // axes
+  xVt.strokeStyle='#e2e8f0'; xVt.lineWidth=1;
+  xVt.strokeRect(pad, 12, gw, gh);
+  xVt.strokeStyle='#cbd5e1'; xVt.setLineDash([4,5]);
+  for(let i=0;i<=5;i++){ const y=12+gh - i*gh/5; xVt.beginPath(); xVt.moveTo(pad,y); xVt.lineTo(pad+gw,y); xVt.stroke(); }
+  xVt.setLineDash([]);
+  // curve
+  xVt.strokeStyle='#0e7a4b'; xVt.lineWidth=2.5; xVt.beginPath();
+  for(let px=0; px<=gw; px++){
+    const t=10*px/gw; const v=vAt(t);
+    const y=12+gh - (v/14)*gh;
+    px? xVt.lineTo(pad+px, y): xVt.moveTo(pad+px, y);
+  }
+  xVt.stroke();
+  // area total (approx)
+  // marker sesaat
+  const t=parseFloat(tS.value); const v=vAt(t);
+  const mx=pad + (t/10)*gw, my=12+gh - (v/14)*gh;
+  xVt.fillStyle='#f59e0b'; xVt.beginPath(); xVt.arc(mx,my,6,0,Math.PI*2); xVt.fill();
+  xVt.strokeStyle='#fff'; xVt.lineWidth=2; xVt.stroke();
+  xVt.fillStyle='#334155'; xVt.font='600 10px Inter, sans-serif'; xVt.textAlign='center'; xVt.fillText(v.toFixed(1)+' m/s', mx, my-10);
+  // labels
+  xVt.fillStyle='#64748b'; xVt.font='600 10px Inter, sans-serif'; xVt.textAlign='left'; xVt.fillText('v (m/s)', pad, 10);
+  xVt.textAlign='right'; xVt.fillText('t (s)', pad+gw, H-4);
+  for(let t=0; t<=10; t+=2){ xVt.fillText(String(t), pad + (t/10)*gw, H-8); }
+  for(let v=0; v<=14; v+=4){ xVt.fillText(String(v), pad-4, 12+gh - (v/14)*gh +3); }
+  // update numbers
+  vSout.textContent=v.toFixed(2)+' m/s';
+  // compute averages integral approx numeric
+  let sumV=0, sumAbs=0, dt=0.02;
+  for(let tt=0; tt<10; tt+=dt){ sumV+= vAt(tt+dt/2)*dt; sumAbs+= Math.abs(vAt(tt+dt/2))*dt; }
+  const vAvg=sumV/10, laju=sumAbs/10;
+  rataKet.textContent=vAvg.toFixed(2)+' m/s';
+  lajuKet.textContent=laju.toFixed(2)+' m/s';
+}
+tS.addEventListener('input', drawVt); drawVt();
+
+// ===== percepatan =====
+const cAcc=document.getElementById('acc'), xA=cAcc.getContext('2d');
+const t1El=document.getElementById('t1'), t2El=document.getElementById('t2');
+const dvEl=document.getElementById('dv'), daEl=document.getElementById('da');
+function vBolt(t){
+  // simplified Bolt: 0-2 accel steep, 2-7 flat near 12, 7-9.6 decel
+  if(t<2) return 6*t;
+  if(t<7) return 12 - 0.2*(t-2);
+  return 11 - 0.9*(t-7);
+}
+function drawAcc(){
+  let t1=parseFloat(t1El.value), t2=parseFloat(t2El.value);
+  if(t2<=t1){ t2=t1+0.5; t2El.value=t2; }
+  const W=cAcc.width, H=cAcc.height, pad=28, gw=W-pad-14, gh=H-34;
+  xA.clearRect(0,0,W,H);
+  xA.strokeStyle='#e2e8f0'; xA.strokeRect(pad, 10, gw, gh);
+  xA.setLineDash([4,5]); xA.strokeStyle='#cbd5e1';
+  for(let i=0;i<=4;i++){ const y=10+gh - i*gh/4; xA.beginPath(); xA.moveTo(pad,y); xA.lineTo(pad+gw,y); xA.stroke(); }
+  xA.setLineDash([]);
+  // curve
+  xA.strokeStyle='#334155'; xA.lineWidth=2.2; xA.beginPath();
+  for(let px=0; px<=gw; px++){ const t=10*px/gw; const v=vBolt(t); const y=10+gh - (v/13)*gh; px? xA.lineTo(pad+px,y): xA.moveTo(pad+px,y); }
+  xA.stroke();
+  // highlight segment
+  const x1=pad + (t1/10)*gw, x2=pad + (t2/10)*gw, y1=10+gh - (vBolt(t1)/13)*gh, y2=10+gh - (vBolt(t2)/13)*gh;
+  xA.fillStyle='rgba(14,122,75,.10)'; xA.fillRect(x1,10, x2-x1, gh);
+  xA.strokeStyle='#0e7a4b'; xA.lineWidth=2; xA.beginPath(); xA.moveTo(x1,y1); xA.lineTo(x2,y2); xA.stroke();
+  xA.fillStyle='#0e7a4b'; xA.beginPath(); xA.arc(x1,y1,5,0,Math.PI*2); xA.fill(); xA.beginPath(); xA.arc(x2,y2,5,0,Math.PI*2); xA.fill();
+  xA.fillStyle='#0f172a'; xA.font='700 10px Inter, sans-serif'; xA.textAlign='center';
+  xA.fillText('t₁ '+t1.toFixed(1)+'s', x1, H-6); xA.fillText('t₂ '+t2.toFixed(1)+'s', x2, H-6);
+  const dv=vBolt(t2)-vBolt(t1), dt=t2-t1, a=dv/dt;
+  dvEl.textContent=(dv>=0?'+':'')+dv.toFixed(2)+' m/s'; daEl.textContent=(a>=0?'+':'')+a.toFixed(2)+' m/s²';
+  const note=document.getElementById('accNote');
+  if(Math.abs(a)<0.2) note.textContent='Kecepatan hampir tetap — garis datar, percepatan ≈ 0 (seperti puncak grafik buku Gbr 2.8).';
+  else if(a>0.6) note.textContent='Mempercepat — kemiringan v–t curam ke atas (awal sprint Bolt).';
+  else if(a< -0.4) note.textContent='Melambat — kemiringan turun (akhir lintasan Bolt).';
+  else note.textContent='Perubahan kecepatan kecil — transisi.';
+}
+t1El.addEventListener('input', drawAcc); t2El.addEventListener('input', drawAcc); drawAcc();
+
+// ===== KUIS =====
+const soal=[
+  {q:"Rute biru berliku vs rute merah lurus semut (Gbr 2.6). Mana yang perpindahan?", o:["Rute biru — karena paling panjang","Rute merah — garis awal→akhir (vektor)","Keduanya sama — hanya warna beda","Tidak ada yang perpindahan"], a:1, exp:"Perpindahan = perubahan posisi awal→akhir (merah, lurus). Jarak = panjang lintasan biru."},
+  {q:"Pengendara sepeda menempuh 60 km dalam 3.5 jam, perpindahan −10 km. Kecepatan rata-rata?", o:["60 km/jam","17.1 km/jam","−2.86 km/jam ke barat","10 km/jam"], a:2, exp:"v̄ = Δx/Δt = −10/3.5 ≈ −2.86 km/jam. Tanda − = ke barat. 17.1 adalah kelajuan."},
+  {q:"Feri Kapuas: arus 1.25 m/s timur, feri 1.33 m/s utara (terhadap air). Kecepatan terhadap tanah?", o:["0.08 m/s","1.83 m/s miring timur-utara","2.58 m/s lurus utara","1.25 m/s timur saja"], a:1, exp:"Penjumlahan vektor: |v|=√(1.25²+1.33²)≈1.83 m/s, arah timur dari utara."},
+  {q:"Rambu 80 km/jam di tol menunjukkan …", o:["Kecepatan rata-rata sepanjang tol","Kelajuan sesaat maksimum yang boleh","Perpindahan per jam","Percepatan maksimum"], a:1, exp:"Buku hal. 38: rambu = batas kelajuan sesaat (yang dibaca speedometer/radar gun)."},
+  {q:"Pada grafik v–t, percepatan = …", o:["Luas di bawah kurva","Tinggi kurva","Kemiringan (slope) kurva","Panjang sumbu t"], a:2, exp:"a = Δv/Δt = kemiringan v–t. Luas v–t = perpindahan."}
+];
+const qz=document.getElementById('quiz');
+soal.forEach((s,i)=>{
+  let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;
+  s.o.forEach((opt,j)=>{ h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> <span>${opt}</span></label>`; });
+  h+=`<div class="small" id="exp${i}" style="display:none; margin-top:6px; background:var(--slate-50); border:1px solid var(--slate-200); padding:8px 10px; border-radius:8px"></div></div>`;
+  qz.innerHTML+=h;
+});
+document.getElementById('check').onclick=()=>{
+  let benar=0;
+  soal.forEach((s,i)=>{
+    const p=document.querySelector(`input[name=q${i}]:checked`);
+    const exp=document.getElementById(`exp${i}`);
+    exp.style.display='block';
+    if(p && parseInt(p.value)===s.a){ benar++; exp.textContent='✅ Benar — '+s.exp; exp.style.color='var(--emerald-600)'; }
+    else if(p){ exp.textContent='❌ Jawaban benar: '+(s.o[s.a])+' — '+s.exp; exp.style.color='#b45309'; }
+    else{ exp.textContent='⚠️ Belum dijawab — jawaban benar: '+(s.o[s.a])+' — '+s.exp; exp.style.color='#64748b'; }
+  });
+  const r=document.getElementById('result');
+  r.style.display='block';
+  r.textContent=`Skor: ${benar} / ${soal.length} ${benar===soal.length?'🎉 Tuntas! Lanjut ke C. Gerak Lurus.' : benar>=3?'Bagus — ulangi yang salah ya':'Yuk ulangi, cek simulasi di atas'}`;
+  r.className='result '+(benar===soal.length?'ok': benar>=3?'ok':'warn');
+};
+document.getElementById('resetQuiz').onclick=()=>{
+  document.querySelectorAll('input[type=radio]').forEach(e=> e.checked=false);
+  document.querySelectorAll('[id^=exp]').forEach(e=> e.style.display='none');
+  const r=document.getElementById('result'); r.style.display='none';
+};
+document.getElementById('printBtn').onclick=(e)=>{ e.preventDefault(); window.print(); };
+</script>
+</body>
+</html>
