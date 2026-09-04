@@ -56,10 +56,18 @@ canvas{width:100%; max-width:100%; height:auto; background:#f1f5f9; border-radiu
 @media(min-width:640px){.grid2{grid-template-columns:1fr 1fr} .container{padding:22px 18px 50px}}
 .q{padding:12px 0; border-bottom:1px solid #eef2f7}
 .q:last-child{border:none}
-.q p{font-size:14px; margin-bottom:8px; color:var(--slate-900)}
-.opt{display:flex; gap:10px; align-items:flex-start; font-size:14px; padding:9px 10px; border:1px solid #eef2f7; border-radius:10px; margin-bottom:8px; cursor:pointer; min-height:44px}
-.opt input{margin-top:3px; accent-color:var(--emerald)}
-.result{margin-top:10px; font-weight:750; font-size:14px; padding:10px 12px; border-radius:10px; display:none}
+.q p{font-size:15px; margin-bottom:12px; color:var(--slate-900); font-weight:700; line-height:1.5}
+.opt{display:flex; align-items:center; gap:12px; font-size:14px; padding:12px 14px; border:2px solid #e2e8f0; border-radius:14px; margin-bottom:10px; cursor:pointer; min-height:52px; transition:.15s; background:#fff; font-weight:500; user-select:none}
+.opt:hover{border-color:var(--emerald); background:var(--emerald-50); transform:translateY(-1px)}
+.opt input{display:none}
+.opt.selected{border-color:var(--emerald); background:var(--emerald-50); box-shadow:0 0 0 4px rgba(14,122,75,.12)}
+.opt.correct{border-color:#059669; background:#ecfdf5; color:#065f46; box-shadow:0 0 0 4px rgba(5,150,105,.12)}
+.opt.wrong{border-color:#dc2626; background:#fef2f2; color:#991b1b; box-shadow:0 0 0 4px rgba(220,38,38,.12)}
+.opt-letter{width:34px; height:34px; border-radius:10px; background:var(--slate-900); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex-shrink:0; letter-spacing:.02em}
+.opt.selected .opt-letter{background:var(--emerald)}
+.opt.correct .opt-letter{background:#059669}
+.opt.wrong .opt-letter{background:#dc2626}
+.result{margin-top:14px; font-weight:750; font-size:15px; padding:12px 14px; border-radius:12px; display:none}
 .result.ok{display:block; background:var(--emerald-50); color:var(--emerald-600); border:1px solid #a7f3d0}
 .result.warn{display:block; background:#fffbeb; color:#b45309; border:1px solid #fde68a}
 .split{display:flex; gap:10px; align-items:center; font-size:12px; color:var(--slate-500); margin:8px 0}
@@ -265,16 +273,16 @@ canvas{width:100%; max-width:100%; height:auto; background:#f1f5f9; border-radiu
 
   <section id="kuis" class="card">
     <h2>✍️ Kuis Mini — Bagian B</h2>
-    <p class="small">5 soal, nilai langsung. Semua jawaban ada di simulasi & rumus di atas.</p>
+    <p class="muted">Pilih jawaban <b>A sampai E</b>, lalu tekan <b>Periksa Jawaban</b> untuk lihat penjelasan.</p>
     <div id="quiz"></div>
-    <button id="check" class="btn" style="margin-top:12px; width:100%">Periksa jawaban</button>
+    <button id="check" class="btn" style="margin-top:14px; width:100%">Periksa Jawaban</button>
     <div id="result" class="result"></div>
     <div class="split">Selesai kuis</div>
     <div class="row">
       <a href="../../index.html" class="btn ghost" style="flex:1">← Daftar materi</a>
       <button id="resetQuiz" class="btn ghost" style="flex:1">↺ Ulangi kuis</button>
     </div>
-    <p class="small" style="margin-top:8px">Butuh versi cetak? <a href="#" id="printBtn">Cetak / Simpan PDF</a> · Warna hemat tinta, grafik tetap terbaca.</p>
+    <p class="small" style="margin-top:8px">Butuh versi cetak? <a href="#" id="printBtn">Cetak / Simpan PDF</a></p>
   </section>
 </main>
 <footer class="foot">
@@ -486,27 +494,56 @@ t1El.addEventListener('input', drawAcc); t2El.addEventListener('input', drawAcc)
 // ===== KUIS =====
 const soal=[
   {q:"Rute biru berliku vs rute merah lurus semut (Gbr 2.6). Mana yang perpindahan?", o:["Rute biru — karena paling panjang","Rute merah — garis awal→akhir (vektor)","Keduanya sama — hanya warna beda","Tidak ada yang perpindahan"], a:1, exp:"Perpindahan = perubahan posisi awal→akhir (merah, lurus). Jarak = panjang lintasan biru."},
-  {q:"Pengendara sepeda menempuh 60 km dalam 3.5 jam, perpindahan −10 km. Kecepatan rata-rata?", o:["60 km/jam","17.1 km/jam","−2.86 km/jam ke barat","10 km/jam"], a:2, exp:"v̄ = Δx/Δt = −10/3.5 ≈ −2.86 km/jam. Tanda − = ke barat. 17.1 adalah kelajuan."},
-  {q:"Feri Kapuas: arus 1.25 m/s timur, feri 1.33 m/s utara (terhadap air). Kecepatan terhadap tanah?", o:["0.08 m/s","1.83 m/s miring timur-utara","2.58 m/s lurus utara","1.25 m/s timur saja"], a:1, exp:"Penjumlahan vektor: |v|=√(1.25²+1.33²)≈1.83 m/s, arah timur dari utara."},
+  {q:"Pengendara sepeda menempuh 60 km dalam 3.5 jam, perpindahan −10 km. Kecepatan rata-rata?", o:["60 km/jam","17.1 km/jam","−2,86 km/jam ke barat","10 km/jam"], a:2, exp:"v̄ = Δx/Δt = −10/3,5 ≈ −2,86 km/jam. Tanda − = ke barat. 17,1 adalah kelajuan."},
+  {q:"Feri Kapuas: arus 1,25 m/s timur, feri 1,33 m/s utara (terhadap air). Kecepatan terhadap tanah?", o:["0,08 m/s","1,83 m/s miring timur-utara","2,58 m/s lurus utara","1,25 m/s timur saja"], a:1, exp:"Penjumlahan vektor: |v|=√(1,25²+1,33²)≈1,83 m/s, arah timur dari utara."},
   {q:"Rambu 80 km/jam di tol menunjukkan …", o:["Kecepatan rata-rata sepanjang tol","Kelajuan sesaat maksimum yang boleh","Perpindahan per jam","Percepatan maksimum"], a:1, exp:"Buku hal. 38: rambu = batas kelajuan sesaat (yang dibaca speedometer/radar gun)."},
   {q:"Pada grafik v–t, percepatan = …", o:["Luas di bawah kurva","Tinggi kurva","Kemiringan (slope) kurva","Panjang sumbu t"], a:2, exp:"a = Δv/Δt = kemiringan v–t. Luas v–t = perpindahan."}
 ];
+const letters = ['A','B','C','D','E'];
 const qz=document.getElementById('quiz');
 soal.forEach((s,i)=>{
   let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;
-  s.o.forEach((opt,j)=>{ h+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"> <span>${opt}</span></label>`; });
-  h+=`<div class="small" id="exp${i}" style="display:none; margin-top:6px; background:var(--slate-50); border:1px solid var(--slate-200); padding:8px 10px; border-radius:8px"></div></div>`;
+  s.o.forEach((opt,j)=>{
+    const letter = letters[j] || String.fromCharCode(65+j);
+    h+=`<div class="opt" data-q="${i}" data-a="${j}"><span class="opt-letter">${letter}</span><span>${opt}</span></div>`;
+  });
+  h+=`<div class="small" id="exp${i}" style="display:none; margin-top:8px; background:var(--slate-50); border:1px solid var(--slate-200); padding:10px 12px; border-radius:10px"></div></div>`;
   qz.innerHTML+=h;
 });
+
+// selection handler
+let selected = {};
+qz.addEventListener('click', e=>{
+  const opt = e.target.closest('.opt');
+  if(!opt) return;
+  const q = parseInt(opt.dataset.q);
+  const a = parseInt(opt.dataset.a);
+  // clear previous selection for this question
+  qz.querySelectorAll(`.opt[data-q="${q}"]`).forEach(el=> el.classList.remove('selected'));
+  opt.classList.add('selected');
+  selected[q] = a;
+});
+
 document.getElementById('check').onclick=()=>{
   let benar=0;
   soal.forEach((s,i)=>{
-    const p=document.querySelector(`input[name=q${i}]:checked`);
     const exp=document.getElementById(`exp${i}`);
     exp.style.display='block';
-    if(p && parseInt(p.value)===s.a){ benar++; exp.textContent='✅ Benar — '+s.exp; exp.style.color='var(--emerald-600)'; }
-    else if(p){ exp.textContent='❌ Jawaban benar: '+(s.o[s.a])+' — '+s.exp; exp.style.color='#b45309'; }
-    else{ exp.textContent='⚠️ Belum dijawab — jawaban benar: '+(s.o[s.a])+' — '+s.exp; exp.style.color='#64748b'; }
+    const chosen = selected[i];
+    const opts = qz.querySelectorAll(`.opt[data-q="${i}"]`);
+    if(chosen === undefined){
+      exp.textContent='⚠️ Belum dijawab — jawaban benar: '+letters[s.a]+'. '+s.exp; exp.style.color='#64748b';
+    } else if(chosen === s.a){
+      benar++;
+      exp.textContent='✅ Benar — '+s.exp; exp.style.color='var(--emerald-600)';
+      opts[s.a].classList.add('correct');
+    } else {
+      exp.textContent='❌ Jawaban benar: '+letters[s.a]+'. '+s.exp; exp.style.color='#b45309';
+      opts[chosen].classList.add('wrong');
+      opts[s.a].classList.add('correct');
+    }
+    // disable further clicks for this question
+    opts.forEach(el=> el.style.pointerEvents='none');
   });
   const r=document.getElementById('result');
   r.style.display='block';
@@ -514,7 +551,11 @@ document.getElementById('check').onclick=()=>{
   r.className='result '+(benar===soal.length?'ok': benar>=3?'ok':'warn');
 };
 document.getElementById('resetQuiz').onclick=()=>{
-  document.querySelectorAll('input[type=radio]').forEach(e=> e.checked=false);
+  selected={};
+  document.querySelectorAll('.opt').forEach(el=>{
+    el.classList.remove('selected','correct','wrong');
+    el.style.pointerEvents='auto';
+  });
   document.querySelectorAll('[id^=exp]').forEach(e=> e.style.display='none');
   const r=document.getElementById('result'); r.style.display='none';
 };
