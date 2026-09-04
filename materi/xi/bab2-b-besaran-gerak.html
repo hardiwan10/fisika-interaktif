@@ -273,7 +273,7 @@ canvas{width:100%; max-width:100%; height:auto; background:#f1f5f9; border-radiu
 
   <section id="kuis" class="card">
     <h2>✍️ Kuis Mini — Bagian B</h2>
-    <p class="muted">Pilih jawaban <b>A sampai D</b>, lalu tekan <b>Periksa Jawaban</b> untuk lihat penjelasan.</p>
+    <p class="muted">Pilih jawaban <b>A sampai E</b>, lalu tekan <b>Periksa Jawaban</b> untuk lihat penjelasan.</p>
     <div id="quiz"></div>
     <button id="check" class="btn" style="margin-top:14px; width:100%">Periksa Jawaban</button>
     <div id="result" class="result"></div>
@@ -493,13 +493,13 @@ t1El.addEventListener('input', drawAcc); t2El.addEventListener('input', drawAcc)
 
 // ===== KUIS =====
 const soal=[
-  {q:"Rute biru berliku vs rute merah lurus semut (Gbr 2.6). Mana yang perpindahan?", o:["Rute biru — karena paling panjang","Rute merah — garis awal→akhir (vektor)","Keduanya sama — hanya warna beda","Tidak ada yang perpindahan"], a:1, exp:"Perpindahan = perubahan posisi awal→akhir (merah, lurus). Jarak = panjang lintasan biru."},
-  {q:"Pengendara sepeda menempuh 60 km dalam 3.5 jam, perpindahan −10 km. Kecepatan rata-rata?", o:["60 km/jam","17.1 km/jam","−2,86 km/jam ke barat","10 km/jam"], a:2, exp:"v̄ = Δx/Δt = −10/3,5 ≈ −2,86 km/jam. Tanda − = ke barat. 17,1 adalah kelajuan."},
-  {q:"Feri Kapuas: arus 1,25 m/s timur, feri 1,33 m/s utara (terhadap air). Kecepatan terhadap tanah?", o:["0,08 m/s","1,83 m/s miring timur-utara","2,58 m/s lurus utara","1,25 m/s timur saja"], a:1, exp:"Penjumlahan vektor: |v|=√(1,25²+1,33²)≈1,83 m/s, arah timur dari utara."},
-  {q:"Rambu 80 km/jam di tol menunjukkan …", o:["Kecepatan rata-rata sepanjang tol","Kelajuan sesaat maksimum yang boleh","Perpindahan per jam","Percepatan maksimum"], a:1, exp:"Buku hal. 38: rambu = batas kelajuan sesaat (yang dibaca speedometer/radar gun)."},
-  {q:"Pada grafik v–t, percepatan = …", o:["Luas di bawah kurva","Tinggi kurva","Kemiringan (slope) kurva","Panjang sumbu t"], a:2, exp:"a = Δv/Δt = kemiringan v–t. Luas v–t = perpindahan."}
+  {q:"Rute biru berliku vs rute merah lurus semut (Gbr 2.6). Mana yang perpindahan?", o:["Rute biru — karena paling panjang","Rute merah — garis awal→akhir (vektor)","Keduanya sama — hanya warna beda","Tidak ada yang perpindahan","Perpindahan = jarak tempuh total"], a:1, exp:"Perpindahan = perubahan posisi awal→akhir (merah, lurus). Jarak = panjang lintasan biru."},
+  {q:"Pengendara sepeda menempuh 60 km dalam 3.5 jam, perpindahan −10 km. Kecepatan rata-rata?", o:["60 km/jam","17.1 km/jam","−2.86 km/jam ke barat","10 km/jam","0 km/jam (kembali ke awal)"], a:2, exp:"v̄ = Δx/Δt = −10/3.5 ≈ −2.86 km/jam. Tanda − = ke barat. 17.1 adalah kelajuan."},
+  {q:"Feri Kapuas: arus 1.25 m/s timur, feri 1.33 m/s utara (terhadap air). Kecepatan terhadap tanah?", o:["0.08 m/s","1.83 m/s miring timur-utara","2.58 m/s lurus utara","1.25 m/s timur saja","1.33 m/s utara saja"], a:1, exp:"Penjumlahan vektor: |v|=√(1.25²+1.33²)≈1.83 m/s, arah timur dari utara."},
+  {q:"Rambu 80 km/jam di tol menunjukkan ...", o:["Kecepatan rata-rata sepanjang tol","Kelajuan sesaat maksimum yang boleh","Perpindahan per jam","Percepatan maksimum","Waktu tempuh maksimum"], a:1, exp:"Buku hal. 38: rambu = batas kelajuan sesaat (yang dibaca speedometer/radar gun)."},
+  {q:"Pada grafik v–t, percepatan = ...", o:["Luas di bawah kurva","Tinggi kurva","Kemiringan (slope) kurva","Panjang sumbu t","Gradien titik tengah"], a:2, exp:"a = Δv/Δt = kemiringan v–t. Luas v–t = perpindahan."}
 ];
-const letters = ['A','B','C','D'];
+const letters = ['A','B','C','D','E'];
 const qz=document.getElementById('quiz');
 soal.forEach((s,i)=>{
   let h=`<div class="q"><p><b>${i+1}.</b> ${s.q}</p>`;
