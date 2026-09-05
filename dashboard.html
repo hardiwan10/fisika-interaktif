@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Mr. Fisika Bot | MAN 1 Soppeng</title>
+<meta name="color-scheme" content="light">
+<style>
+:root{--emerald:#0e7a4b;--emerald-600:#0a5e3a;--emerald-50:#ecfdf5;--amber:#f59e0b;--amber-50:#fffbeb;--slate-900:#0f172a;--slate-700:#334155;--slate-500:#64748b;--slate-200:#e2e8f0;--slate-50:#f8fafc;--white:#ffffff;--r:18px;--r2:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--slate-50);color:var(--slate-900);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--emerald);text-decoration:none}
+.hero{background:var(--emerald);color:#fff;padding:22px 18px 20px}
+.hero-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bot-icon{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.hero-text{flex:1;min-width:180px}
+.hero h1{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px}
+.hero p{color:#d1fae5;font-size:13px;line-height:1.5}
+.status-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#fff}
+.dot{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.25)}
+.dot.off{background:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.25)}
+.container{max-width:720px;margin:0 auto;padding:16px 14px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--white);border-radius:var(--r);padding:16px;box-shadow:0 1px 8px rgba(15,23,42,.05);border:1px solid #eef2f7}
+.card h2{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--slate-900);margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.muted{color:var(--slate-500);font-size:13.5px}
+.small{font-size:12.5px;color:var(--slate-500)}
+.kpi{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.kpi div{background:var(--slate-50);border:1px solid var(--slate-200);border-radius:12px;padding:12px;text-align:center}
+.kpi strong{font-size:20px;display:block;color:var(--emerald-600)}
+.kpi span{font-size:11.5px;color:var(--slate-500);margin-top:2px;display:block}
+.table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:12px;border:1px solid var(--slate-200);margin-top:10px;font-size:13px}
+.table th{background:var(--slate-900);color:#fff;text-align:left;padding:10px 12px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.table td{padding:10px 12px;border-top:1px solid #eef2f7;background:#fff}
+.table tr:nth-child(even) td{background:var(--slate-50)}
+.badge{display:inline-flex;align-items:center;gap:5px;background:var(--emerald-50);color:var(--emerald-600);border:1px solid #a7f3d0;padding:4px 8px;border-radius:999px;font-size:11.5px;font-weight:700}
+.badge.xi{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.badge.xii{background:#fdf4ff;color:#a21caf;border-color:#f0abfc}
+.btn{appearance:none;border:none;background:var(--emerald);color:#fff;padding:10px 14px;border-radius:12px;font-size:13.5px;font-weight:750;cursor:pointer;min-height:44px;transition:.12s;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--emerald-50);color:var(--emerald-600);border:1px solid #a7f3d0}
+.btn.sm{padding:7px 10px;font-size:12px;min-height:36px;border-radius:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.split{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--slate-500);margin:8px 0}
+.split::before,.split::after{content:"";flex:1;height:1px;background:var(--slate-200)}
+.foot{text-align:center;padding:16px;color:var(--slate-500);font-size:12px}
+.empty{text-align:center;padding:18px;color:var(--slate-500);font-size:13.5px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="bot-icon">🤖</div>
+    <div class="hero-text">
+      <h1>Dashboard — Mr. Fisika</h1>
+      <p>Bot WhatsApp materi Fisika • MAN 1 Soppeng</p>
+    </div>
+    <div class="status-pill"><span class="dot" id="statusDot"></span> <span id="statusText">Online</span></div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- STATUS BOT -->
+  <section class="card">
+    <h2>📊 Ringkasan</h2>
+    <div class="kpi">
+      <div><strong id="totalMateri">0</strong><span>Total Materi</span></div>
+      <div><strong id="totalKelas">2</strong><span>Kelas (XI & XII)</span></div>
+      <div><strong id="totalSimulasi">0</strong><span>Simulasi Interaktif</span></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <a href="/" class="btn ghost" style="flex:1">← Situs Fisika</a>
+      <a href="/materi/xi/bab2-b-besaran-gerak.html" class="btn ghost" style="flex:1">Preview Materi →</a>
+    </div>
+  </section>
+
+  <!-- MATERI KELAS XI -->
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <h2>📚 Materi Kelas XI</h2>
+      <span class="badge xi">5 materi</span>
+    </div>
+    <table class="table">
+      <thead><tr><th>#</th><th>Bab / Topik</th><th>Tipe</th><th>Aksi</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Vektor — Pt.1 Konsep Dasar</td><td><span class="badge">interaktif</span></td><td><a href="/materi/xi/vektor-p1.html" class="btn sm ghost">Buka</a></td></tr>
+        <tr><td>2</td><td>Vektor — Pt.2 Penjumlahan Grafis</td><td><span class="badge">interaktif</span></td><td><a href="/materi/xi/vektor-p2.html" class="btn sm ghost">Buka</a></td></tr>
+        <tr><td>3</td><td>Vektor — Pt.3 Metode Komponen</td><td><span class="badge">interaktif</span></td><td><a href="/materi/xi/vektor-p3.html" class="btn sm ghost">Buka</a></td></tr>
+        <tr><td>4</td><td>Vektor — Pt.4 Dot & Cross Product</td><td><span class="badge">interaktif</span></td><td><a href="/materi/xi/vektor-p4.html" class="btn sm ghost">Buka</a></td></tr>
+        <tr><td>5</td><td>GLB — Gerak Lurus Beraturan</td><td><span class="badge">simulasi</span></td><td><a href="/materi/xi/glbb.html" class="btn sm ghost">Buka</a></td></tr>
+        <tr><td>6</td><td>B. Besaran-Besaran Gerak</td><td><span class="badge">kuis + simulasi</span></td><td><a href="/materi/xi/bab2-b-besaran-gerak.html" class="btn sm ghost">Buka</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- MATERI KELAS XII -->
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <h2>🧪 Materi Kelas XII</h2>
+      <span class="badge xii">1 materi</span>
+    </div>
+    <table class="table">
+      <thead><tr><th>#</th><th>Bab / Topik</th><th>Tipe</th><th>Aksi</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Listrik Statis — Coulomb, Medan, Kapasitor</td><td><span class="badge">interaktif</span></td><td><a href="/materi/xii/listrik-statis.html" class="btn sm ghost">Buka</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- BOT STATUS -->
+  <section class="card">
+    <h2>⚙️ Status Bot WhatsApp</h2>
+    <table class="table">
+      <thead><tr><th>Service</th><th>Status</th><th>Port</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td>Bot WA "Mr. Fisika"</td><td><span class="badge">● Active</span></td><td>3000</td><td>via gowa-whatsapp</td></tr>
+        <tr><td>Database</td><td><span class="badge">● Active</span></td><td>3306</td><td>MariaDB</td></tr>
+        <tr><td>nginx</td><td><span class="badge">● Active</span></td><td>80/443</td><td>Cloudflare tunnel</td></tr>
+        <tr><td>Cloudflare Tunnel</td><td><span class="badge">● Active</span></td><td>—</td><td>fisika, wa, picsmaller, lms, n8n, port</td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top:10px">Bot merespon command: <code>/tanya</code> (AI), <code>/materi XI|XII|semua</code> (daftar materi, class-filtered). Unregistered user tidak bisa akses <code>/materi</code>.</p>
+  </section>
+
+  <!-- PANDUAN -->
+  <section class="card">
+    <h2>📖 Panduan Update Materi</h2>
+    <ol class="list">
+      <li>Edit file HTML di server: <code>/root/fisika-interaktif/materi/</code></li>
+      <li>Untuk Kelas XI: <code>materi/xi/</code> · Untuk Kelas XII: <code>materi/xii/</code></li>
+      <li>Commit & push ke GitHub: <code>git add -A && git commit -m "..." && git push origin main</code></li>
+      <li>GitHub Pages otomatis deploy — tunggu 1–2 menit</li>
+      <li>Verifikasi di <a href="https://fisika.hardiwan.my.id">fisika.hardiwan.my.id</a></li>
+    </ol>
+    <p class="small" style="margin-top:8px">Gunakan DESIGN.md sebagai panduan styling agar konsisten hijau madrasah + Inter font.</p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>MAN 1 Soppeng · Fisika XI & XII — Dashboard Mr. Fisika · Dibuat dengan antislop filter (DURING)</p>
+</footer>
+
+<script>
+// KPI counters
+document.getElementById('totalMateri').textContent = '7';
+document.getElementById('totalSimulasi').textContent = '4';
+
+// Simulasi cek bot status (placeholder)
+setTimeout(()=>{
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  // Jika bot wa mati, ganti ke off
+  // dot.classList.add('off'); txt.textContent = 'Offline';
+}, 2000);
+</script>
+</body>
+</html>
