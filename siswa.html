@@ -41,6 +41,21 @@ a{color:var(--emerald);text-decoration:none}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
 .split{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--slate-500);margin:8px 0}
 .split::before,.split::after{content:"";flex:1;height:1px;background:var(--slate-200)}
+.table-wrap{overflow:auto; -webkit-overflow-scrolling:touch}
+.cards{display:none; flex-direction:column; gap:10px; margin-top:12px}
+.s-card{background:#fff; border:1px solid var(--slate-200); border-radius:14px; padding:12px; display:flex; flex-direction:column; gap:8px}
+.s-top{display:flex; justify-content:space-between; gap:8px; align-items:flex-start}
+.s-name{font-weight:800; font-size:14px; color:var(--slate-900); line-height:1.3}
+.s-phone{font-size:12.5px; color:var(--slate-500); font-family: ui-monospace, monospace}
+.s-actions{display:flex; gap:8px; flex-wrap:wrap}
+.s-actions .btn{flex:1; min-height:44px}
+@media(max-width:640px){
+  .table-wrap{display:none}
+  .cards{display:flex}
+  .container{padding:14px 12px 40px}
+  .card{padding:14px 12px}
+  .table th,.table td{padding:9px 10px; font-size:12.5px}
+}
 .foot{text-align:center;padding:16px;color:var(--slate-500);font-size:12px}
 .empty{text-align:center;padding:18px;color:var(--slate-500);font-size:13.5px}
 input[type=text],input[type=tel],select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--slate-200);font-size:14px;background:var(--white)}
@@ -92,13 +107,18 @@ label{font-size:13px;font-weight:600;color:var(--slate-700);display:flex;flex-di
       <span class="badge" id="countBadge">0 siswa</span>
     </div>
     <div class="row">
-      <input type="text" id="search" placeholder="Cari nomor / nama..." style="flex:1">
+      <input type="text" id="search" placeholder="Cari nomor / nama..." style="flex:1; min-width:160px">
       <button class="btn ghost sm" id="exportBtn">Export JSON</button>
     </div>
-    <table class="table">
-      <thead><tr><th>#</th><th>Nomor</th><th>Nama</th><th>Kelas</th><th>Aksi</th></tr></thead>
-      <tbody id="siswaTable"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
-    </table>
+    <!-- Desktop: table -->
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>#</th><th>Nomor</th><th>Nama</th><th>Kelas</th><th>Aksi</th></tr></thead>
+        <tbody id="siswaTable"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
+      </table>
+    </div>
+    <!-- HP: cards (no horizontal scroll, R-03). Diisi oleh JS yang sama -->
+    <div id="siswaCards" class="cards" aria-live="polite"></div>
   </section>
 </main>
 
@@ -136,7 +156,9 @@ function initApp(){
 
 async function load(){
   const tbody = $('siswaTable');
+  const cardsEl = $('siswaCards');
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#64748b">⏳ Memuat data...</td></tr>';
+  if(cardsEl) cardsEl.innerHTML = '<div class="empty">⏳ Memuat data...</div>';
   try{
     // Use pre-loaded data first
     let list = SISWA_DATA;
@@ -167,11 +189,17 @@ async function load(){
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:#b45309">
       ⚠️ Gagal memuat. <a href="javascript:initApp()" style="color:var(--emerald)">Coba lagi</a>
     </td></tr>`;
+    if(cardsEl) cardsEl.innerHTML = `<div class="empty" style="color:#b45309">⚠️ Gagal memuat. <a href="javascript:initApp()" style="color:var(--emerald)">Coba lagi</a></div>`;
   }
 }
 function render(list){
   const tbody = $('siswaTable');
-  if(!list.length){ tbody.innerHTML = '<tr><td colspan="5" class="empty">Belum ada siswa.</td></tr>'; return; }
+  const cards = $('siswaCards');
+  if(!list.length){
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">Belum ada siswa.</td></tr>';
+    if(cards) cards.innerHTML = '<div class="empty">Belum ada siswa. Tambah di atas atau Import Massal.</div>';
+    return;
+  }
   tbody.innerHTML = list.map((s,i)=>`<tr>
     <td>${i+1}</td>
     <td>${esc(s.nomor)}</td>
@@ -182,6 +210,21 @@ function render(list){
       <button class="btn sm danger" onclick="delSiswa('${esc(s.nomor)}')">Hapus</button>
     </td>
   </tr>`).join('');
+  if(cards){
+    cards.innerHTML = list.map((s,i)=>`<div class="s-card" data-search="${esc((s.nomor+' '+(s.nama||'')).toLowerCase())}">
+      <div class="s-top">
+        <div>
+          <div class="s-name">${esc(s.nama||'Tanpa nama')} <span class="badge ${esc(s.kelas==='XI'?'xi':'xii')}" style="margin-left:6px; vertical-align:middle">${esc(s.kelas)}</span></div>
+          <div class="s-phone">${esc(s.nomor)}</div>
+        </div>
+        <span class="small">#${i+1}</span>
+      </div>
+      <div class="s-actions">
+        <button class="btn sm ghost" onclick="editSiswa('${esc(s.nomor)}')">✏️ Edit</button>
+        <button class="btn sm danger" onclick="delSiswa('${esc(s.nomor)}')">🗑️ Hapus</button>
+      </div>
+    </div>`).join('');
+  }
 }
 function esc(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 
@@ -208,8 +251,8 @@ window.editSiswa = async nomor=>{
 };
 $('search').oninput = e=>{
   const q = e.target.value.toLowerCase();
-  const rows = document.querySelectorAll('#siswaTable tr');
-  rows.forEach(row=>{ row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+  document.querySelectorAll('#siswaTable tr').forEach(row=>{ row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+  document.querySelectorAll('#siswaCards .s-card').forEach(c=>{ c.style.display = (c.dataset.search||'').includes(q) || c.textContent.toLowerCase().includes(q) ? '' : 'none'; });
 };
 $('exportBtn').onclick = ()=>{ window.location.href = API+'/export'; };
 $('bulkClear').onclick = ()=>{ $('bulkInput').value=''; $('bulkMsg').textContent=''; };
