@@ -104,16 +104,27 @@ let SISWA_DATA = window.__SISWA_DATA__ || [];
 const $ = id => document.getElementById(id);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); }
 
+// Wait for DOM to be ready
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+function initApp(){
+  console.log('Page loaded, SISWA_DATA:', SISWA_DATA.length, 'students');
+  load();
+}
+
 async function load(){
   const tbody = $('siswaTable');
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#64748b">⏳ Memuat data...</td></tr>';
   try{
-    console.log('Loading siswa...');
-    
-    // Use pre-loaded data if available, otherwise fetch
+    // Use pre-loaded data first
     let list = SISWA_DATA;
+    console.log('Using pre-loaded data:', list.length, 'students');
     
-    // Fallback: try fetch if no pre-loaded data
+    // If empty, try fetch as fallback
     if(list.length === 0){
       try {
         const r = await fetch(API + '?_=' + Date.now(), { 
@@ -127,17 +138,16 @@ async function load(){
         }
       } catch(fetchErr) {
         console.warn('Fetch failed:', fetchErr.message);
-        // Continue with empty list
       }
     }
     
-    console.log('Data loaded:', list.length, 'students');
+    console.log('Rendering', list.length, 'students');
     $('countBadge').textContent = list.length + ' siswa';
     render(list);
   }catch(e){
     console.error('Load error:', e);
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:#b45309">
-      ⚠️ Gagal memuat. <a href="javascript:load()" style="color:var(--emerald)">Coba lagi</a>
+      ⚠️ Gagal memuat. <a href="javascript:initApp()" style="color:var(--emerald)">Coba lagi</a>
     </td></tr>`;
   }
 }
