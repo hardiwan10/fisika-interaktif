@@ -98,6 +98,8 @@ label{font-size:13px;font-weight:600;color:var(--slate-700);display:flex;flex-di
 
 <script>
 const API = '/api/siswa';
+// For local access, try direct connection to API server on port 5681
+//const API_DIRECT = 'http://127.0.0.1:5681/api/siswa';
 const $ = id => document.getElementById(id);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); }
 
@@ -105,21 +107,27 @@ async function load(){
   const tbody = $('siswaTable');
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#64748b">⏳ Memuat data...</td></tr>';
   try{
-    console.log('Loading siswa from:', API + '?_=' + Date.now());
-    const controller = new AbortController();
-    const timeout = setTimeout(()=> controller.abort(), 8000);
-    const r = await fetch(API + '?_=' + Date.now(), { signal: controller.signal });
-    clearTimeout(timeout);
-    console.log('Response status:', r.status);
+    console.log('Loading siswa...');
+    
+    // Try direct first, then fallback
+    let r;
+    try {
+      r = await fetch(API_DIRECT + '?_=' + Date.now(), { signal: AbortSignal.timeout(5000) });
+      console.log('Direct API response:', r.status);
+    } catch(e) {
+      console.log('Direct failed, trying proxy:', e.message);
+      r = await fetch(API + '?_=' + Date.now(), { signal: AbortSignal.timeout(5000) });
+    }
+    
     const j = await r.json();
-    console.log('Response data:', j);
+    console.log('Data loaded:', j);
     const list = j.data || [];
     $('countBadge').textContent = list.length + ' siswa';
     render(list);
   }catch(e){
     console.error('Load error:', e);
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:#b45309">
-      ⚠️ Gagal memuat. <a href="javascript:load()" style="color:var(--emerald)">Coba lagi</a>
+      ⚠️ Gagal memuat: ${e.message}. <a href="javascript:load()" style="color:var(--emerald)">Coba lagi</a>
     </td></tr>`;
   }
 }
