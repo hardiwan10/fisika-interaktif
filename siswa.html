@@ -113,7 +113,13 @@ if(document.readyState === 'loading'){
 
 function initApp(){
   console.log('Page loaded, SISWA_DATA:', SISWA_DATA.length, 'students');
-  load();
+  // Show debug info on page if needed
+  if(SISWA_DATA.length > 0){
+    $('countBadge').textContent = SISWA_DATA.length + ' siswa';
+    render(SISWA_DATA);
+  } else {
+    load();
+  }
 }
 
 async function load(){
