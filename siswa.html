@@ -102,15 +102,22 @@ const $ = id => document.getElementById(id);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); }
 
 async function load(){
+  const tbody = $('siswaTable');
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#64748b">⏳ Memuat data...</td></tr>';
   try{
-    const r = await fetch(API + '?_=' + Date.now());
+    const controller = new AbortController();
+    const timeout = setTimeout(()=> controller.abort(), 8000);
+    const r = await fetch(API + '?_=' + Date.now(), { signal: controller.signal });
+    clearTimeout(timeout);
     const j = await r.json();
     const list = j.data || [];
     $('countBadge').textContent = list.length + ' siswa';
     render(list);
   }catch(e){
-    $('siswaTable').innerHTML = '<tr><td colspan="5" class="empty">Gagal memuat. Coba refresh.</td></tr>';
     console.error('Load error:', e);
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:#b45309">
+      ⚠️ Gagal memuat. <a href="javascript:load()" style="color:var(--emerald)">Coba lagi</a>
+    </td></tr>`;
   }
 }
 function render(list){
