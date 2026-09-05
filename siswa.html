@@ -75,6 +75,18 @@ label{font-size:13px;font-weight:600;color:var(--slate-700);display:flex;flex-di
   </section>
 
   <section class="card">
+    <h2>📥 Import Massal</h2>
+    <p class="small">Tempel data <code>nomor, nama, kelas</code> — satu baris satu siswa. Contoh:<br><code>085200011122, Siti Aisyah, XI</code></p>
+    <textarea id="bulkInput" rows="6" placeholder="085200011122, Siti Aisyah, XI
+085312345678, Budi, XII" style="width:100%; padding:11px 12px; border-radius:10px; border:1px solid var(--slate-200); font-size:13px; font-family: ui-monospace, monospace; margin-top:8px"></textarea>
+    <div class="row">
+      <button class="btn" id="bulkBtn" style="flex:1">📥 Import</button>
+      <button class="btn ghost sm" id="bulkClear">Bersihkan</button>
+    </div>
+    <div class="small" id="bulkMsg" style="margin-top:8px"></div>
+  </section>
+
+  <section class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
       <h2>📇 Daftar Siswa</h2>
       <span class="badge" id="countBadge">0 siswa</span>
@@ -179,20 +191,20 @@ $('addForm').onsubmit = async e=>{
   if(!nomor||!kelas) return toast('Nomor dan kelas wajib diisi');
   const r = await fetch(API,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nomor,nama,kelas}) });
   const j = await r.json(); if(!j.ok) return toast(j.error||'Gagal');
-  toast('Tersimpan'); $('addForm').reset(); load();
+  toast('Tersimpan'); $('addForm').reset(); SISWA_DATA=[]; load();
 };
 window.delSiswa = async nomor=>{
   if(!confirm('Hapus '+nomor+'?')) return;
   const r = await fetch(API+'/'+encodeURIComponent(nomor),{ method:'DELETE' });
   const j = await r.json(); if(!j.ok) return toast(j.error||'Gagal');
-  toast('Dihapus'); load();
+  toast('Dihapus'); SISWA_DATA=[]; load();
 };
 window.editSiswa = async nomor=>{
   const kelas = prompt('Kelas (X/XI/XII):'); if(!kelas) return;
   const nama = prompt('Nama (opsional):');
   const r = await fetch(API+'/'+encodeURIComponent(nomor),{ method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({kelas,nama}) });
   const j = await r.json(); if(!j.ok) return toast(j.error||'Gagal');
-  toast('Tersimpan'); load();
+  toast('Tersimpan'); SISWA_DATA=[]; load();
 };
 $('search').oninput = e=>{
   const q = e.target.value.toLowerCase();
@@ -200,7 +212,21 @@ $('search').oninput = e=>{
   rows.forEach(row=>{ row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none'; });
 };
 $('exportBtn').onclick = ()=>{ window.location.href = API+'/export'; };
-load();
+$('bulkClear').onclick = ()=>{ $('bulkInput').value=''; $('bulkMsg').textContent=''; };
+$('bulkBtn').onclick = async ()=>{
+  const raw = $('bulkInput').value.trim();
+  if(!raw) return toast('Tempel data dulu');
+  const rows = raw.split(/\n+/).map(l=>l.trim()).filter(Boolean).map(line=>{ const p = line.split(',').map(s=>s.trim()); return { nomor: p[0]||'', nama: p[1]||'', kelas: (p[2]||'').toUpperCase() }; });
+  const r = await fetch(API+'/bulk', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(rows) });
+  const j = await r.json().catch(()=>({ok:false, error:'Gagal parse respons'}));
+  if(!j.ok){ $('bulkMsg').textContent = j.error||'Gagal import'; $('bulkMsg').style.color='#b45309'; return; }
+  toast('Ditambahkan '+j.data.added+' siswa');
+  $('bulkMsg').textContent = 'Berhasil: '+j.data.added+' ditambah, '+j.data.skipped+' dilewati. Total '+j.data.total+' siswa.';
+  $('bulkMsg').style.color='var(--emerald-600)';
+  $('bulkInput').value='';
+  SISWA_DATA = [];
+  load();
+};
 </script>
 </body>
 </html>
