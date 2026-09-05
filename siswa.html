@@ -105,11 +105,14 @@ async function load(){
   const tbody = $('siswaTable');
   tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#64748b">⏳ Memuat data...</td></tr>';
   try{
+    console.log('Loading siswa from:', API + '?_=' + Date.now());
     const controller = new AbortController();
     const timeout = setTimeout(()=> controller.abort(), 8000);
     const r = await fetch(API + '?_=' + Date.now(), { signal: controller.signal });
     clearTimeout(timeout);
+    console.log('Response status:', r.status);
     const j = await r.json();
+    console.log('Response data:', j);
     const list = j.data || [];
     $('countBadge').textContent = list.length + ' siswa';
     render(list);
