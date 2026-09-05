@@ -102,10 +102,16 @@ const $ = id => document.getElementById(id);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); }
 
 async function load(){
-  const r = await fetch(API); const j = await r.json();
-  const list = j.data || [];
-  $('countBadge').textContent = list.length + ' siswa';
-  render(list);
+  try{
+    const r = await fetch(API + '?_=' + Date.now());
+    const j = await r.json();
+    const list = j.data || [];
+    $('countBadge').textContent = list.length + ' siswa';
+    render(list);
+  }catch(e){
+    $('siswaTable').innerHTML = '<tr><td colspan="5" class="empty">Gagal memuat. Coba refresh.</td></tr>';
+    console.error('Load error:', e);
+  }
 }
 function render(list){
   const tbody = $('siswaTable');
