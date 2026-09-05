@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Siswa — Mr. Fisika Bot | MAN 1 Soppeng</title>
+<meta name="color-scheme" content="light">
+<style>
+:root{--emerald:#0e7a4b;--emerald-600:#0a5e3a;--emerald-50:#ecfdf5;--amber:#f59e0b;--amber-50:#fffbeb;--slate-900:#0f172a;--slate-700:#334155;--slate-500:#64748b;--slate-200:#e2e8f0;--slate-50:#f8fafc;--white:#ffffff;--r:18px;--r2:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--slate-50);color:var(--slate-900);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--emerald);text-decoration:none}
+.hero{background:var(--emerald);color:#fff;padding:22px 18px 20px}
+.hero-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bot-icon{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.hero-text{flex:1;min-width:180px}
+.hero h1{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px}
+.hero p{color:#d1fae5;font-size:13px;line-height:1.5}
+.container{max-width:720px;margin:0 auto;padding:16px 14px 44px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--white);border-radius:var(--r);padding:16px;box-shadow:0 1px 8px rgba(15,23,42,.05);border:1px solid #eef2f7}
+.card h2{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--slate-900);margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.muted{color:var(--slate-500);font-size:13.5px}
+.small{font-size:12.5px;color:var(--slate-500)}
+.kpi{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.kpi div{background:var(--slate-50);border:1px solid var(--slate-200);border-radius:12px;padding:12px;text-align:center}
+.kpi strong{font-size:20px;display:block;color:var(--emerald-600)}
+.kpi span{font-size:11.5px;color:var(--slate-500);margin-top:2px;display:block}
+.table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:12px;border:1px solid var(--slate-200);margin-top:10px;font-size:13px}
+.table th{background:var(--slate-900);color:#fff;text-align:left;padding:10px 12px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.table td{padding:10px 12px;border-top:1px solid #eef2f7;background:#fff}
+.table tr:nth-child(even) td{background:var(--slate-50)}
+.badge{display:inline-flex;align-items:center;gap:5px;background:var(--emerald-50);color:var(--emerald-600);border:1px solid #a7f3d0;padding:4px 8px;border-radius:999px;font-size:11.5px;font-weight:700}
+.badge.xi{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.badge.xii{background:#fdf4ff;color:#a21caf;border-color:#f0abfc}
+.btn{appearance:none;border:none;background:var(--emerald);color:#fff;padding:10px 14px;border-radius:12px;font-size:13.5px;font-weight:750;cursor:pointer;min-height:44px;transition:.12s;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--emerald-50);color:var(--emerald-600);border:1px solid #a7f3d0}
+.btn.sm{padding:7px 10px;font-size:12px;min-height:36px;border-radius:10px}
+.btn.danger{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.split{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--slate-500);margin:8px 0}
+.split::before,.split::after{content:"";flex:1;height:1px;background:var(--slate-200)}
+.foot{text-align:center;padding:16px;color:var(--slate-500);font-size:12px}
+.empty{text-align:center;padding:18px;color:var(--slate-500);font-size:13.5px}
+input[type=text],input[type=tel],select{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--slate-200);font-size:14px;background:var(--white)}
+label{font-size:13px;font-weight:600;color:var(--slate-700);display:flex;flex-direction:column;gap:6px;flex:1; min-width:140px}
+.form{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+.toast{position:fixed; top:16px; right:16px; background:var(--slate-900); color:#fff; padding:10px 14px; border-radius:12px; font-size:13.5px; font-weight:600; opacity:0; transform:translateY(-8px); transition:.2s; pointer-events:none; z-index:50}
+.toast.show{opacity:1; transform:translateY(0)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="bot-icon">📋</div>
+    <div class="hero-text">
+      <h1>Data Siswa — Mr. Fisika</h1>
+      <p>Tambah / edit / hapus nomor WhatsApp yang bisa pakai bot</p>
+    </div>
+    <a href="/dashboard.html" class="btn ghost">← Dashboard</a>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <h2>➕ Tambah Siswa</h2>
+    <form id="addForm" class="form">
+      <label>Nomor WA<input type="tel" id="nomor" placeholder="08xxxxxxxxxx" required></label>
+      <label>Nama (opsional)<input type="text" id="nama" placeholder="Nama siswa"></label>
+      <label>Kelas<select id="kelas" required><option value="">Pilih kelas</option><option>XI</option><option>XII</option></select></label>
+      <button type="submit" class="btn" style="align-self:flex-end">Simpan</button>
+    </form>
+    <p class="small" style="margin-top:8px">Nomor akan disimpan di <code>siswa.json</code>. Siswa bisa langsung pakai <code>/materi</code> setelah ditambahkan.</p>
+  </section>
+
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <h2>📇 Daftar Siswa</h2>
+      <span class="badge" id="countBadge">0 siswa</span>
+    </div>
+    <div class="row">
+      <input type="text" id="search" placeholder="Cari nomor / nama..." style="flex:1">
+      <button class="btn ghost sm" id="exportBtn">Export JSON</button>
+    </div>
+    <table class="table">
+      <thead><tr><th>#</th><th>Nomor</th><th>Nama</th><th>Kelas</th><th>Aksi</th></tr></thead>
+      <tbody id="siswaTable"><tr><td colspan="5" class="empty">Memuat...</td></tr></tbody>
+    </table>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<footer class="foot">
+  <p>MAN 1 Soppeng · Fisika XI & XII — Dashboard Mr. Fisika</p>
+</footer>
+
+<script>
+const API = '/api/siswa';
+const $ = id => document.getElementById(id);
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); }
+
+async function load(){
+  const r = await fetch(API); const j = await r.json();
+  const list = j.data || [];
+  $('countBadge').textContent = list.length + ' siswa';
+  render(list);
+}
+function render(list){
+  const tbody = $('siswaTable');
+  if(!list.length){ tbody.innerHTML = '<tr><td colspan="5" class="empty">Belum ada siswa.</td></tr>'; return; }
+  tbody.innerHTML = list.map((s,i)=>`<tr>
+    <td>${i+1}</td>
+    <td>${esc(s.nomor)}</td>
+    <td>${esc(s.nama||'-')}</td>
+    <td><span class="badge ${esc(s.kelas==='XI'?'xi':'xii')}">${esc(s.kelas)}</span></td>
+    <td>
+      <button class="btn sm ghost" onclick="editSiswa('${esc(s.nomor)}')">Edit</button>
+      <button class="btn sm danger" onclick="delSiswa('${esc(s.nomor)}')">Hapus</button>
+    </td>
+  </tr>`).join('');
+}
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\\'':'&#39;' }[c])); }
+
+$('addForm').onsubmit = async e=>{
+  e.preventDefault();
+  const nomor = $('nomor').value.trim(); const nama = $('nama').value.trim(); const kelas = $('kelas').value;
+  if(!nomor||!kelas) return toast('Nomor dan kelas wajib diisi');
+  const r = await fetch(API,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nomor,nama,kelas}) });
+  const j = await r.json(); if(!j.ok) return toast(j.error||'Gagal');
+  toast('Tersimpan'); $('addForm').reset(); load();
+};
+window.delSiswa = async nomor=>{
+  if(!confirm('Hapus '+nomor+'?')) return;
+  const r = await fetch(API+'/'+encodeURIComponent(nomor),{ method:'DELETE' });
+  const j = await r.json(); if(!j.ok) return toast(j.error||'Gagal');
+  toast('Dihapus'); load();
+};
+window.editSiswa = async nomor=>{
+  const kelas = prompt('Kelas (X/XI/XII):'); if(!kelas) return;
+  const nama = prompt('Nama (opsional):');
+  const r = await fetch(API+'/'+encodeURIComponent(nomor),{ method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({kelas,nama}) });
+  const j = await r.json(); if(!j.ok) return toast(j.error||'Gagal');
+  toast('Tersimpan'); load();
+};
+$('search').oninput = e=>{
+  const q = e.target.value.toLowerCase();
+  const rows = document.querySelectorAll('#siswaTable tr');
+  rows.forEach(row=>{ row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+};
+$('exportBtn').onclick = ()=>{ window.location.href = API+'/export'; };
+load();
+</script>
+</body>
+</html>
