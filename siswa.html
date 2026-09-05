@@ -96,10 +96,11 @@ label{font-size:13px;font-weight:600;color:var(--slate-700);display:flex;flex-di
   <p>MAN 1 Soppeng · Fisika XI & XII — Dashboard Mr. Fisika</p>
 </footer>
 
+<script src="/api/siswa-inline"></script>
 <script>
 const API = '/api/siswa';
-// For local access, try direct connection to API server on port 5681
-//const API_DIRECT = 'http://127.0.0.1:5681/api/siswa';
+// Pre-loaded student data from server (injected via /api/siswa-inline)
+let SISWA_DATA = window.__SISWA_DATA__ || [];
 const $ = id => document.getElementById(id);
 function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); }
 
@@ -109,25 +110,34 @@ async function load(){
   try{
     console.log('Loading siswa...');
     
-    // Try direct first, then fallback
-    let r;
-    try {
-      r = await fetch(API_DIRECT + '?_=' + Date.now(), { signal: AbortSignal.timeout(5000) });
-      console.log('Direct API response:', r.status);
-    } catch(e) {
-      console.log('Direct failed, trying proxy:', e.message);
-      r = await fetch(API + '?_=' + Date.now(), { signal: AbortSignal.timeout(5000) });
+    // Use pre-loaded data if available, otherwise fetch
+    let list = SISWA_DATA;
+    
+    // Fallback: try fetch if no pre-loaded data
+    if(list.length === 0){
+      try {
+        const r = await fetch(API + '?_=' + Date.now(), { 
+          signal: AbortSignal.timeout(5000),
+          headers: {'Accept': 'application/json'}
+        });
+        if(r.ok){
+          const j = await r.json();
+          list = j.data || [];
+          SISWA_DATA = list;
+        }
+      } catch(fetchErr) {
+        console.warn('Fetch failed:', fetchErr.message);
+        // Continue with empty list
+      }
     }
     
-    const j = await r.json();
-    console.log('Data loaded:', j);
-    const list = j.data || [];
+    console.log('Data loaded:', list.length, 'students');
     $('countBadge').textContent = list.length + ' siswa';
     render(list);
   }catch(e){
     console.error('Load error:', e);
     tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:20px;color:#b45309">
-      ⚠️ Gagal memuat: ${e.message}. <a href="javascript:load()" style="color:var(--emerald)">Coba lagi</a>
+      ⚠️ Gagal memuat. <a href="javascript:load()" style="color:var(--emerald)">Coba lagi</a>
     </td></tr>`;
   }
 }
